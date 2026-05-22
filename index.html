@@ -1,592 +1,822 @@
+<!-- ========================= -->
+<!-- 深空专注系统 v2 -->
+<!-- 更高级沉浸式版本 -->
+<!-- ========================= -->
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>深空专注系统 - 动态星环版</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Space Focus</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      user-select: none;
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#020817;
+    color:white;
+    height:100vh;
+}
+
+/* ========================= */
+/* 动态宇宙背景 */
+/* ========================= */
+
+.space-bg{
+
+    position:fixed;
+    inset:0;
+
+    background:
+    radial-gradient(circle at top,#244cff22,transparent 30%),
+    radial-gradient(circle at bottom,#11306644,transparent 40%),
+    linear-gradient(to bottom,#020817,#071122);
+
+    overflow:hidden;
+}
+
+/* 星星 */
+
+.star{
+
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    opacity:.8;
+    animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+
+    0%{opacity:.2}
+    50%{opacity:1}
+    100%{opacity:.2}
+}
+
+/* 浮动光 */
+
+.glow{
+
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.25;
+    animation:float 12s ease-in-out infinite;
+}
+
+.glow1{
+    width:500px;
+    height:500px;
+    background:#4d74ff;
+    top:-100px;
+    left:-100px;
+}
+
+.glow2{
+    width:400px;
+    height:400px;
+    background:#5f8bff;
+    right:-100px;
+    bottom:-100px;
+}
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px);
     }
 
-    body {
-      height: 100vh;
-      overflow: hidden;
-      background: #040b1c;
-      color: white;
-      display: flex;
-      cursor: default;
+    50%{
+        transform:translateY(-30px);
     }
 
-    /* ========== 动态星空背景 ========== */
-    .stars-container {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* ========================= */
+/* 主布局 */
+/* ========================= */
+
+.app{
+
+    display:flex;
+    height:100vh;
+    position:relative;
+    z-index:2;
+}
+
+/* ========================= */
+/* 左侧导航 */
+/* ========================= */
+
+.sidebar{
+
+    width:90px;
+
+    background:rgba(10,15,30,.45);
+
+    backdrop-filter:blur(20px);
+
+    border-right:1px solid rgba(255,255,255,.08);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding:30px 0;
+
+    gap:28px;
+}
+
+.logo{
+
+    width:54px;
+    height:54px;
+
+    border-radius:18px;
+
+    background:
+    linear-gradient(145deg,#8db5ff,#5578ff);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:22px;
+    font-weight:bold;
+
+    box-shadow:
+    0 0 25px rgba(112,150,255,.55);
+}
+
+.nav-btn{
+
+    width:58px;
+    height:58px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.05);
+
+    color:#dce5ff;
+
+    font-size:22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:.35s;
+}
+
+.nav-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:rgba(120,160,255,.12);
+
+    box-shadow:
+    0 0 25px rgba(120,160,255,.2);
+}
+
+/* ========================= */
+/* 中间区域 */
+/* ========================= */
+
+.main{
+
+    flex:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+}
+
+/* 宇宙舷窗 */
+
+.window{
+
+    width:88%;
+    height:88vh;
+
+    border-radius:42px;
+
+    background:
+    linear-gradient(
+    145deg,
+    rgba(20,30,60,.55),
+    rgba(10,15,35,.35));
+
+    backdrop-filter:blur(35px);
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    0 0 60px rgba(0,0,0,.45),
+    inset 0 0 60px rgba(255,255,255,.03);
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+}
+
+/* ========================= */
+/* 中间计时区 */
+/* ========================= */
+
+.focus-area{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+}
+
+/* 动态能源环 */
+
+.energy-ring{
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    animation:ringFloat 6s ease-in-out infinite;
+}
+
+@keyframes ringFloat{
+
+    0%{
+        transform:translateY(0px);
     }
 
-    canvas#starCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
+    50%{
+        transform:translateY(-12px);
     }
 
-    /* ========== 左侧栏 ========== */
-    .sidebar {
-      width: 240px;
-      height: 100vh;
-      backdrop-filter: blur(18px);
-      background: rgba(10, 15, 35, 0.5);
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      z-index: 10;
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+.energy-ring::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    background:
+    conic-gradient(
+    from 0deg,
+    #6ea1ff,
+    #dbe6ff,
+    #5f83ff,
+    #6ea1ff);
+
+    animation:rotate 10s linear infinite;
+
+    filter:blur(.5px);
+
+    box-shadow:
+    0 0 35px rgba(120,160,255,.65);
+}
+
+.energy-ring::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    border-radius:50%;
+
+    background:#07111f;
+
+    border:
+    1px solid rgba(255,255,255,.05);
+}
+
+@keyframes rotate{
+
+    from{
+        transform:rotate(0deg);
     }
 
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, #fff, #8cb4ff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* 内部 */
+
+.timer-content{
+
+    position:relative;
+    z-index:5;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.mode{
+
+    color:#a8bcff;
+    letter-spacing:4px;
+
+    margin-bottom:20px;
+}
+
+.time{
+
+    font-size:92px;
+    font-weight:200;
+
+    letter-spacing:4px;
+
+    text-shadow:
+    0 0 20px rgba(160,190,255,.35);
+}
+
+.tip{
+
+    margin-top:18px;
+
+    color:#8ea2da;
+
+    font-size:15px;
+}
+
+/* 控制按钮 */
+
+.controls{
+
+    margin-top:45px;
+
+    display:flex;
+    gap:18px;
+}
+
+.control-btn{
+
+    padding:16px 34px;
+
+    border:none;
+
+    border-radius:18px;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    background:
+    linear-gradient(
+    145deg,
+    #8db5ff,
+    #5a7bff);
+
+    box-shadow:
+    0 0 25px rgba(120,160,255,.35);
+
+    transition:.35s;
+}
+
+.control-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 0 35px rgba(120,160,255,.55);
+}
+
+/* ========================= */
+/* 右侧陪伴系统 */
+/* ========================= */
+
+.companion{
+
+    width:360px;
+
+    position:relative;
+
+    border-left:
+    1px solid rgba(255,255,255,.06);
+
+    background:
+    linear-gradient(
+    to bottom,
+    rgba(15,20,40,.28),
+    rgba(5,10,20,.18));
+
+    overflow:hidden;
+}
+
+/* 全息光 */
+
+.holo{
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+    to bottom,
+    transparent,
+    rgba(120,160,255,.08));
+
+    pointer-events:none;
+}
+
+/* 人物 */
+
+.character{
+
+    position:absolute;
+
+    right:-40px;
+    bottom:0;
+
+    height:92%;
+
+    opacity:.92;
+
+    filter:
+    drop-shadow(0 0 35px rgba(140,180,255,.25));
+
+    animation:characterFloat 5s ease-in-out infinite;
+}
+
+@keyframes characterFloat{
+
+    0%{
+        transform:translateY(0px);
     }
 
-    .sub {
-      color: #8fa9ff;
-      margin-bottom: 40px;
-      font-size: 14px;
+    50%{
+        transform:translateY(-10px);
     }
 
-    .menu {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* 文字 */
+
+.companion-ui{
+
+    position:absolute;
+
+    top:60px;
+    left:35px;
+
+    z-index:5;
+
+    width:240px;
+}
+
+.title{
+
+    font-size:28px;
+
+    margin-bottom:22px;
+}
+
+.quote{
+
+    line-height:2;
+
+    color:#dce5ff;
+
+    font-size:18px;
+}
+
+.signature{
+
+    margin-top:20px;
+
+    color:#89a0dc;
+}
+
+/* ========================= */
+/* 底部系统栏 */
+/* ========================= */
+
+.bottom-system{
+
+    position:absolute;
+
+    left:50%;
+    bottom:35px;
+
+    transform:translateX(-50%);
+
+    width:560px;
+
+    height:74px;
+
+    border-radius:24px;
+
+    background:
+    rgba(10,15,30,.55);
+
+    backdrop-filter:blur(25px);
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+}
+
+.system-item{
+
+    color:#dce5ff;
+
+    font-size:15px;
+}
+
+/* ========================= */
+/* 响应式 */
+/* ========================= */
+
+@media(max-width:1200px){
+
+    .companion{
+        display:none;
     }
 
-    .menu button {
-      background: transparent;
-      border: none;
-      color: #cdd8ff;
-      padding: 16px;
-      border-radius: 16px;
-      text-align: left;
-      font-size: 15px;
-      cursor: pointer;
-      transition: 0.3s;
+    .energy-ring{
+        width:320px;
+        height:320px;
     }
 
-    .menu button:hover {
-      background: rgba(126, 163, 255, 0.12);
-      transform: translateX(4px);
+    .energy-ring::after{
+        width:260px;
+        height:260px;
     }
 
-    /* ========== 主区域 ========== */
-    .main {
-      flex: 1;
-      padding: 40px;
-      display: flex;
-      gap: 30px;
-      z-index: 10;
+    .time{
+        font-size:70px;
     }
+}
 
-    .center {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ========== 动态星环容器 ========== */
-    .timer-ring {
-      position: relative;
-      width: 420px;
-      height: 420px;
-    }
-
-    canvas#ringCanvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 0 20px rgba(120, 170, 255, 0.5));
-    }
-
-    .timer-inner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 310px;
-      height: 310px;
-      border-radius: 50%;
-      background: rgba(4, 10, 25, 0.9);
-      backdrop-filter: blur(15px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      z-index: 2;
-    }
-
-    .mode {
-      color: #a8bfff;
-      margin-bottom: 15px;
-      letter-spacing: 3px;
-      font-size: 14px;
-    }
-
-    .time {
-      font-size: 82px;
-      font-weight: 200;
-      letter-spacing: 4px;
-      font-family: monospace;
-    }
-
-    .quote {
-      margin-top: 18px;
-      color: #8fa1d9;
-      font-size: 14px;
-    }
-
-    .controls {
-      margin-top: 40px;
-      display: flex;
-      gap: 20px;
-    }
-
-    .controls button {
-      padding: 16px 34px;
-      border: none;
-      border-radius: 18px;
-      cursor: pointer;
-      color: white;
-      font-size: 16px;
-      background: linear-gradient(135deg, #8fb4ff, #5b78ff);
-      box-shadow: 0 0 20px rgba(111, 149, 255, 0.35);
-      transition: 0.3s;
-    }
-
-    .controls button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 30px rgba(111, 149, 255, 0.55);
-    }
-
-    /* ========== 右侧面板 ========== */
-    .right-panel {
-      width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card {
-      background: rgba(12, 18, 40, 0.55);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 28px;
-      padding: 24px;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .character {
-      height: 460px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .character img {
-      position: absolute;
-      bottom: 0;
-      right: -20px;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.96;
-    }
-
-    .character-text {
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: 2;
-      width: 55%;
-    }
-
-    .character h2 {
-      font-size: 28px;
-      margin-bottom: 18px;
-    }
-
-    .character p {
-      line-height: 1.8;
-      color: #dbe5ff;
-    }
-
-    .small {
-      color: #91a5da;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    .todo ul {
-      margin-top: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .todo li {
-      list-style: none;
-      padding: 14px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.04);
-      color: #dce4ff;
-    }
-
-    /* ========== 底部栏 ========== */
-    .bottom-bar {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 420px;
-      padding: 16px 26px;
-      border-radius: 24px;
-      background: rgba(10, 15, 35, 0.65);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      display: flex;
-      justify-content: space-between;
-      color: #d7e2ff;
-      z-index: 10;
-    }
-
-    @media (max-width: 1200px) {
-      .right-panel {
-        display: none;
-      }
-      .sidebar {
-        display: none;
-      }
-      .main {
-        justify-content: center;
-      }
-    }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <div class="stars-container">
-    <canvas id="starCanvas"></canvas>
-  </div>
+<!-- 动态背景 -->
 
-  <div class="sidebar">
-    <div>
-      <div class="logo">深空专注</div>
-      <div class="sub">Deep Space Focus</div>
-      <div class="menu">
-        <button>✦ 专注模式</button>
-        <button>☾ 白噪音</button>
-        <button>☍ 数据统计</button>
-        <button>✎ 学习记录</button>
-        <button>⚙ 设置</button>
-      </div>
-    </div>
-    <div style="color:#7f95cc;font-size:14px;">
-      “我会一直在这里。”<br><br>
-      —— 夏以昼
-    </div>
-  </div>
+<div class="space-bg">
 
-  <div class="main">
-    <div class="center">
-      <div class="timer-ring">
-        <canvas id="ringCanvas" width="420" height="420"></canvas>
-        <div class="timer-inner">
-          <div class="mode">FOCUS MODE</div>
-          <div class="time" id="time">25:00</div>
-          <div class="quote">沉浸当下，未来会如你所愿。</div>
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+
+</div>
+
+<!-- 主体 -->
+
+<div class="app">
+
+    <!-- 左侧 -->
+
+    <div class="sidebar">
+
+        <div class="logo">✦</div>
+
+        <div class="nav-btn">⌛</div>
+        <div class="nav-btn">♫</div>
+        <div class="nav-btn">☾</div>
+        <div class="nav-btn">☍</div>
+        <div class="nav-btn">⚙</div>
+
+    </div>
+
+    <!-- 中间 -->
+
+    <div class="main">
+
+        <div class="window">
+
+            <!-- 计时区 -->
+
+            <div class="focus-area">
+
+                <div class="energy-ring">
+
+                    <div class="timer-content">
+
+                        <div class="mode">
+                            FOCUS MODE
+                        </div>
+
+                        <div class="time" id="timer">
+                            25:00
+                        </div>
+
+                        <div class="tip">
+                            沉浸当下，未来会如你所愿。
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="controls">
+
+                    <button class="control-btn"
+                    onclick="startTimer()">
+                        开始专注
+                    </button>
+
+                    <button class="control-btn"
+                    onclick="pauseTimer()">
+                        暂停
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- 陪伴系统 -->
+
+            <div class="companion">
+
+                <div class="companion-ui">
+
+                    <div class="title">
+                        夏以昼的陪伴
+                    </div>
+
+                    <div class="quote">
+                        “别分神。<br>
+                        你的每一分钟，<br>
+                        都很重要。”
+                    </div>
+
+                    <div class="signature">
+                        —— 深空陪伴系统
+                    </div>
+
+                </div>
+
+                <!-- 这里后面可以替换成更像夏以昼的图 -->
+
+                <img
+                class="character"
+                src="https://i.imgur.com/8Km9tLL.png">
+
+                <div class="holo"></div>
+
+            </div>
+
+            <!-- 底部系统 -->
+
+            <div class="bottom-system">
+
+                <div class="system-item">
+                    ✦ 深空模式
+                </div>
+
+                <div class="system-item">
+                    ☾ 白噪音
+                </div>
+
+                <div class="system-item">
+                    ♫ 星际环境音
+                </div>
+
+                <div class="system-item">
+                    ⚡ 沉浸专注
+                </div>
+
+            </div>
+
         </div>
-      </div>
-      <div class="controls">
-        <button onclick="startTimer()">开始专注</button>
-        <button onclick="pauseTimer()">暂停</button>
-        <button onclick="resetTimer()">重置</button>
-      </div>
+
     </div>
 
-    <div class="right-panel">
-      <div class="card character">
-        <div class="character-text">
-          <h2>夏以昼的陪伴</h2>
-          <p>“别分神。<br>你的每一分钟，<br>都很重要。”</p>
-          <div class="small">深空陪伴系统已连接</div>
-        </div>
-        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop"/>
-      </div>
-      <div class="card todo">
-        <h3>今日待办</h3>
-        <ul>
-          <li>✔ 背完英语单词 50 个</li>
-          <li>◻ 数学错题整理</li>
-          <li>◻ 政治主观题复盘</li>
-          <li>◻ 阅读30分钟</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <div class="bottom-bar">
-    <span>✦ 深空模式</span>
-    <span>☾ 雨声</span>
-    <span>♫ 星际环境音</span>
-  </div>
+<script>
 
-  <script>
-    // ========== 1. 动态星空系统（移动 + 鼠标视差） ==========
-    const starCanvas = document.getElementById('starCanvas');
-    const starCtx = starCanvas.getContext('2d');
-    
-    let starsArray = [];
-    let starCount = 300;
-    let mouseX = 0, mouseY = 0;
-    let targetOffsetX = 0, targetOffsetY = 0;
-    let currentOffsetX = 0, currentOffsetY = 0;
+/* ========================= */
+/* 星空生成 */
+/* ========================= */
 
-    function initStars() {
-      starsArray = [];
-      for (let i = 0; i < starCount; i++) {
-        starsArray.push({
-          x: Math.random() * 2000 - 500,
-          y: Math.random() * 2000 - 500,
-          radius: Math.random() * 2 + 0.5,
-          alpha: Math.random() * 0.5 + 0.2,
-          speedX: (Math.random() - 0.5) * 0.02,
-          speedY: (Math.random() - 0.5) * 0.02,
-          twinkle: Math.random() * Math.PI * 2
-        });
-      }
-    }
+const bg = document.querySelector(".space-bg");
 
-    function resizeStarCanvas() {
-      starCanvas.width = window.innerWidth;
-      starCanvas.height = window.innerHeight;
-    }
+for(let i=0;i<160;i++){
 
-    function drawStars() {
-      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
-      
-      const centerX = starCanvas.width / 2;
-      const centerY = starCanvas.height / 2;
-      
-      starsArray.forEach(star => {
-        star.x += star.speedX;
-        star.y += star.speedY;
-        
-        if (star.x > starCanvas.width + 500) star.x = -500;
-        if (star.x < -500) star.x = starCanvas.width + 500;
-        if (star.y > starCanvas.height + 500) star.y = -500;
-        if (star.y < -500) star.y = starCanvas.height + 500;
-        
-        star.twinkle += 0.01;
-        const twinkleAlpha = Math.sin(star.twinkle) * 0.2 + 0.5;
-        
-        const parallaxX = (currentOffsetX / 100) * (star.x - centerX) * 0.02;
-        const parallaxY = (currentOffsetY / 100) * (star.y - centerY) * 0.02;
-        
-        starCtx.beginPath();
-        starCtx.arc(star.x + parallaxX, star.y + parallaxY, star.radius, 0, Math.PI * 2);
-        starCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha * twinkleAlpha})`;
-        starCtx.fill();
-      });
-      
-      requestAnimationFrame(drawStars);
-    }
+    let star = document.createElement("div");
 
-    window.addEventListener('resize', () => {
-      resizeStarCanvas();
-    });
+    star.classList.add("star");
 
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      targetOffsetX = (mouseX / window.innerWidth - 0.5) * 60;
-      targetOffsetY = (mouseY / window.innerHeight - 0.5) * 40;
-    });
+    let size = Math.random()*3;
 
-    function updateParallax() {
-      currentOffsetX += (targetOffsetX - currentOffsetX) * 0.05;
-      currentOffsetY += (targetOffsetY - currentOffsetY) * 0.05;
-      requestAnimationFrame(updateParallax);
-    }
+    star.style.width = size+"px";
+    star.style.height = size+"px";
 
-    resizeStarCanvas();
-    initStars();
-    drawStars();
-    updateParallax();
+    star.style.left = Math.random()*100+"%";
+    star.style.top = Math.random()*100+"%";
 
-    // ========== 2. 动态星环系统（进度圆环 + 粒子） ==========
-    const ringCanvas = document.getElementById('ringCanvas');
-    const ringCtx = ringCanvas.getContext('2d');
-    
-    let totalTime = 25 * 60;
-    let remainingTime = totalTime;
-    let ringProgress = 1;
-    let ringAngle = -90;
-    
-    let particles = [];
-    
-    function resizeRingCanvas() {
-      ringCanvas.width = 420;
-      ringCanvas.height = 420;
-    }
-    
-    function drawRing() {
-      ringCtx.clearRect(0, 0, 420, 420);
-      
-      const centerX = 210, centerY = 210;
-      const radius = 190;
-      const startAngle = -Math.PI / 2;
-      const endAngle = startAngle + (Math.PI * 2 * ringProgress);
-      
-      // 背景暗环
-      ringCtx.beginPath();
-      ringCtx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-      ringCtx.strokeStyle = 'rgba(80, 100, 150, 0.3)';
-      ringCtx.lineWidth = 8;
-      ringCtx.stroke();
-      
-      // 主进度环（带渐变）
-      const gradient = ringCtx.createLinearGradient(0, 0, 420, 420);
-      gradient.addColorStop(0, '#8cb4ff');
-      gradient.addColorStop(0.5, '#5b78ff');
-      gradient.addColorStop(1, '#3a5ad0');
-      
-      ringCtx.beginPath();
-      ringCtx.arc(centerX, centerY, radius, startAngle, endAngle);
-      ringCtx.strokeStyle = gradient;
-      ringCtx.lineWidth = 10;
-      ringCtx.lineCap = 'round';
-      ringCtx.stroke();
-      
-      // 光效尾迹
-      const trailAngle = endAngle;
-      for (let i = 0; i < 15; i++) {
-        const trailPos = trailAngle - i * 0.05;
-        if (trailPos > startAngle) {
-          const x = centerX + (radius - i * 1.5) * Math.cos(trailPos);
-          const y = centerY + (radius - i * 1.5) * Math.sin(trailPos);
-          ringCtx.beginPath();
-          ringCtx.arc(x, y, 4 - i * 0.2, 0, Math.PI * 2);
-          ringCtx.fillStyle = `rgba(140, 180, 255, ${0.6 - i * 0.04})`;
-          ringCtx.fill();
+    star.style.animationDuration =
+    2 + Math.random()*5 + "s";
+
+    bg.appendChild(star);
+}
+
+/* ========================= */
+/* 番茄钟 */
+/* ========================= */
+
+let totalSeconds = 25 * 60;
+
+let timer;
+
+function updateDisplay(){
+
+    let minutes =
+    Math.floor(totalSeconds / 60);
+
+    let seconds =
+    totalSeconds % 60;
+
+    document.getElementById("timer").innerHTML =
+    `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+}
+
+function startTimer(){
+
+    clearInterval(timer);
+
+    timer = setInterval(()=>{
+
+        if(totalSeconds > 0){
+
+            totalSeconds--;
+
+            updateDisplay();
+
+        }else{
+
+            clearInterval(timer);
+
+            alert("专注结束。");
+
         }
-      }
-      
-      // 粒子系统
-      if (remainingTime > 0 && ringProgress > 0) {
-        if (Math.random() < 0.3) {
-          const angle = Math.random() * Math.PI * 2;
-          const distance = radius + Math.random() * 20;
-          particles.push({
-            x: centerX + distance * Math.cos(angle),
-            y: centerY + distance * Math.sin(angle),
-            life: 1,
-            size: Math.random() * 3 + 1,
-            angle: angle,
-            radius: distance
-          });
-        }
-      }
-      
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.life -= 0.02;
-        p.radius += 1;
-        p.x = centerX + p.radius * Math.cos(p.angle);
-        p.y = centerY + p.radius * Math.sin(p.angle);
-        
-        if (p.life <= 0 || p.radius > radius + 40) {
-          particles.splice(i, 1);
-          continue;
-        }
-        
-        ringCtx.beginPath();
-        ringCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
-        ringCtx.fillStyle = `rgba(140, 200, 255, ${p.life * 0.8})`;
-        ringCtx.fill();
-      }
-      
-      // 呼吸光晕
-      const breath = Math.sin(Date.now() * 0.002) * 0.3 + 0.5;
-      ringCtx.beginPath();
-      ringCtx.arc(centerX, centerY, radius + 15, 0, Math.PI * 2);
-      ringCtx.fillStyle = `rgba(100, 150, 255, ${breath * 0.08})`;
-      ringCtx.fill();
-      
-      requestAnimationFrame(drawRing);
-    }
-    
-    resizeRingCanvas();
-    drawRing();
-    
-    // ========== 3. 计时器逻辑 ==========
-    let timerInterval = null;
-    
-    function updateTimeDisplay() {
-      const minutes = Math.floor(remainingTime / 60);
-      const seconds = remainingTime % 60;
-      document.getElementById('time').innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-      ringProgress = remainingTime / totalTime;
-    }
-    
-    function startTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        if (remainingTime > 0) {
-          remainingTime--;
-          updateTimeDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alert('专注结束，休息一下吧。');
-        }
-      }, 1000);
-    }
-    
-    function pauseTimer() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-    }
-    
-    function resetTimer() {
-      pauseTimer();
-      remainingTime = totalTime;
-      updateTimeDisplay();
-      ringProgress = 1;
-      particles = [];
-    }
-    
-    updateTimeDisplay();
-  </script>
+
+    },1000);
+}
+
+function pauseTimer(){
+
+    clearInterval(timer);
+}
+
+</script>
+
 </body>
 </html>
