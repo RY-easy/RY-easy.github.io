@@ -1,188 +1,428 @@
-<!-- ===================================== -->
-<!-- 深空专注系统 v5 -->
-<!-- 新增： -->
-<!-- 1. 学习记忆系统 -->
-<!-- 2. 自定义科目 -->
-<!-- 3. 学习时长统计 -->
-<!-- 4. 学习历史 -->
-<!-- 5. localStorage永久保存 -->
-<!-- ===================================== -->
+<!-- ================================= -->
+<!-- 深空专注系统 v3 -->
+<!-- 增加： -->
+<!-- 1. 夏以昼风格角色区 -->
+<!-- 2. 默认番茄钟 -->
+<!-- 3. 自定义时间 -->
+<!-- 4. 模式切换 -->
+<!-- ================================= -->
 
-<!-- ========================= -->
-<!-- 在 .focus-area 里面 -->
-<!-- controls 按钮下面新增 -->
-<!-- ========================= -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ========================= -->
-<!-- 学习科目系统 -->
-<!-- ========================= -->
-
-<div class="subject-panel">
-
-    <div class="panel-title">
-        ✦ 当前学习科目
-    </div>
-
-    <div class="subject-input">
-
-        <input
-        type="text"
-        id="subjectInput"
-        placeholder="输入学习科目">
-
-        <button
-        class="subject-btn"
-        onclick="setSubject()">
-
-            保存科目
-
-        </button>
-
-    </div>
-
-    <div class="current-subject">
-
-        当前：
-        <span id="currentSubject">
-            英语
-        </span>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- 数据统计 -->
-<!-- ========================= -->
-
-<div class="stats-panel">
-
-    <div class="panel-title">
-        ☍ 学习统计
-    </div>
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                今日专注
-            </div>
-
-            <div class="stat-value"
-            id="todayFocus">
-
-                0h
-
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-
-            <div class="stat-label">
-                完成番茄
-            </div>
-
-            <div class="stat-value"
-            id="todayPomodoro">
-
-                0
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ========================= -->
-<!-- 科目统计 -->
-<!-- ========================= -->
-
-<div class="subject-stats">
-
-    <div class="panel-title">
-        ✎ 科目学习时长
-    </div>
-
-    <div id="subjectList">
-
-    </div>
-
-</div>
+<title>深空专注系统</title>
 
 <style>
 
-/* ========================= */
-/* 学习系统UI */
-/* ========================= */
-
-.subject-panel,
-.stats-panel,
-.subject-stats{
-
-    margin-top:28px;
-
-    width:520px;
-
-    padding:22px;
-
-    border-radius:24px;
-
-    background:
-    rgba(255,255,255,.04);
-
-    border:
-    1px solid rgba(255,255,255,.06);
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
 }
 
-/* 标题 */
+body{
+    overflow:hidden;
+    background:#030816;
+    color:white;
+    height:100vh;
+}
 
-.panel-title{
+/* ========================= */
+/* 星空背景 */
+/* ========================= */
 
-    font-size:16px;
+.space-bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle at top,#234cff22,transparent 30%),
+    radial-gradient(circle at bottom,#0e2b5544,transparent 40%),
+    linear-gradient(to bottom,#020817,#07111f);
+}
+
+.star{
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    animation:twinkle linear infinite;
+}
+
+@keyframes twinkle{
+    0%{opacity:.2}
+    50%{opacity:1}
+    100%{opacity:.2}
+}
+
+/* 光晕 */
+
+.glow{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.3;
+    animation:float 10s ease-in-out infinite;
+}
+
+.glow1{
+    width:500px;
+    height:500px;
+    background:#5077ff;
+    top:-100px;
+    left:-100px;
+}
+
+.glow2{
+    width:450px;
+    height:450px;
+    background:#3e5fff;
+    right:-100px;
+    bottom:-100px;
+}
+
+@keyframes float{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-30px)}
+    100%{transform:translateY(0)}
+}
+
+/* ========================= */
+/* 主布局 */
+/* ========================= */
+
+.app{
+    display:flex;
+    height:100vh;
+    position:relative;
+    z-index:2;
+}
+
+/* 左侧 */
+
+.sidebar{
+
+    width:90px;
+
+    background:rgba(10,15,30,.45);
+
+    backdrop-filter:blur(20px);
+
+    border-right:1px solid rgba(255,255,255,.08);
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:30px 0;
+
+    gap:28px;
+}
+
+.logo{
+
+    width:56px;
+    height:56px;
+
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+    linear-gradient(145deg,#8db5ff,#5578ff);
+
+    font-size:24px;
+
+    box-shadow:
+    0 0 25px rgba(120,160,255,.45);
+}
+
+.nav-btn{
+
+    width:58px;
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.04);
 
     color:#dce5ff;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.nav-btn:hover{
+
+    transform:translateY(-4px);
+
+    background:rgba(120,160,255,.12);
+
+    box-shadow:
+    0 0 20px rgba(120,160,255,.2);
+}
+
+/* ========================= */
+/* 主区域 */
+/* ========================= */
+
+.main{
+
+    flex:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.window{
+
+    width:88%;
+    height:88vh;
+
+    border-radius:42px;
+
+    overflow:hidden;
+
+    position:relative;
+
+    background:
+    linear-gradient(
+    145deg,
+    rgba(20,30,60,.55),
+    rgba(10,15,35,.35));
+
+    backdrop-filter:blur(30px);
+
+    border:
+    1px solid rgba(255,255,255,.08);
+
+    display:flex;
+}
+
+/* ========================= */
+/* 中间专注区 */
+/* ========================= */
+
+.focus-area{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+}
+
+/* 能源环 */
+
+.energy-ring{
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    animation:ringFloat 6s ease-in-out infinite;
+}
+
+.energy-ring::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    background:
+    conic-gradient(
+    from 0deg,
+    #6ea1ff,
+    #dbe6ff,
+    #6ea1ff);
+
+    animation:rotate 10s linear infinite;
+
+    box-shadow:
+    0 0 35px rgba(120,160,255,.6);
+}
+
+.energy-ring::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    border-radius:50%;
+
+    background:#07111f;
+}
+
+@keyframes rotate{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
+
+@keyframes ringFloat{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+    100%{transform:translateY(0)}
+}
+
+/* 内容 */
+
+.timer-content{
+
+    position:relative;
+    z-index:5;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+}
+
+.mode{
+
+    color:#a8bcff;
+
+    letter-spacing:4px;
 
     margin-bottom:18px;
 }
 
-/* 输入 */
+.time{
 
-.subject-input{
+    font-size:90px;
+    font-weight:200;
 
-    display:flex;
-
-    gap:12px;
+    letter-spacing:4px;
 }
 
-.subject-input input{
+.tip{
 
-    flex:1;
+    margin-top:15px;
 
-    padding:14px;
+    color:#8ea2da;
+}
+
+/* 模式选择 */
+
+.timer-options{
+
+    margin-top:40px;
+
+    display:flex;
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.option-btn{
+
+    padding:12px 20px;
+
+    border-radius:14px;
 
     border:none;
 
-    border-radius:14px;
+    background:
+    rgba(255,255,255,.06);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.option-btn:hover{
+
+    background:
+    rgba(120,160,255,.2);
+}
+
+/* 自定义 */
+
+.custom-box{
+
+    margin-top:20px;
+
+    display:flex;
+    gap:10px;
+
+    align-items:center;
+}
+
+.custom-box input{
+
+    width:100px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:none;
+
+    outline:none;
 
     background:
     rgba(255,255,255,.08);
 
     color:white;
 
-    outline:none;
+    text-align:center;
 }
 
-.subject-btn{
+/* 按钮 */
 
-    padding:14px 20px;
+.controls{
+
+    margin-top:35px;
+
+    display:flex;
+    gap:18px;
+}
+
+.control-btn{
+
+    padding:16px 34px;
 
     border:none;
 
-    border-radius:14px;
+    border-radius:18px;
+
+    color:white;
+
+    cursor:pointer;
 
     background:
     linear-gradient(
@@ -190,296 +430,445 @@
     #8db5ff,
     #5578ff);
 
-    color:white;
+    box-shadow:
+    0 0 25px rgba(120,160,255,.35);
 
-    cursor:pointer;
+    transition:.3s;
 }
 
-.current-subject{
+.control-btn:hover{
 
-    margin-top:15px;
-
-    color:#9fb3ea;
+    transform:translateY(-3px);
 }
 
 /* ========================= */
-/* 数据统计 */
+/* 右侧陪伴区 */
 /* ========================= */
 
-.stats-grid{
+.companion{
 
-    display:grid;
+    width:360px;
 
-    grid-template-columns:
-    repeat(2,1fr);
+    position:relative;
 
-    gap:16px;
-}
+    border-left:
+    1px solid rgba(255,255,255,.06);
 
-.stat-card{
-
-    padding:20px;
-
-    border-radius:18px;
+    overflow:hidden;
 
     background:
-    rgba(255,255,255,.04);
+    linear-gradient(
+    to bottom,
+    rgba(15,20,40,.35),
+    rgba(5,10,20,.2));
 }
 
-.stat-label{
+/* 人物 */
 
-    color:#8ea2da;
+.character{
 
-    margin-bottom:10px;
+    position:absolute;
+
+    right:-20px;
+    bottom:0;
+
+    height:95%;
+
+    opacity:.95;
+
+    filter:
+    drop-shadow(0 0 35px rgba(120,160,255,.25));
+
+    animation:floatChar 5s ease-in-out infinite;
 }
 
-.stat-value{
-
-    font-size:32px;
-
-    color:white;
+@keyframes floatChar{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+    100%{transform:translateY(0)}
 }
 
-/* ========================= */
-/* 科目统计 */
-/* ========================= */
+/* UI */
 
-.subject-item{
+.companion-ui{
+
+    position:absolute;
+
+    left:35px;
+    top:60px;
+
+    z-index:5;
+
+    width:230px;
+}
+
+.title{
+
+    font-size:28px;
+
+    margin-bottom:22px;
+}
+
+.quote{
+
+    line-height:2;
+
+    color:#dce5ff;
+
+    font-size:18px;
+}
+
+.signature{
+
+    margin-top:20px;
+
+    color:#89a0dc;
+}
+
+/* 底部 */
+
+.bottom-system{
+
+    position:absolute;
+
+    left:50%;
+    bottom:30px;
+
+    transform:translateX(-50%);
+
+    width:560px;
+
+    height:72px;
+
+    border-radius:24px;
+
+    background:
+    rgba(10,15,30,.5);
+
+    backdrop-filter:blur(25px);
+
+    border:
+    1px solid rgba(255,255,255,.08);
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
-
-    padding:14px;
-
-    border-radius:14px;
-
-    margin-bottom:12px;
-
-    background:
-    rgba(255,255,255,.04);
-}
-
-.subject-name{
-
-    color:#dce5ff;
-}
-
-.subject-time{
-
-    color:#8db5ff;
+    justify-content:space-around;
 }
 
 /* 响应式 */
 
 @media(max-width:1200px){
 
-    .subject-panel,
-    .stats-panel,
-    .subject-stats{
+    .companion{
+        display:none;
+    }
 
-        width:90%;
+    .energy-ring{
+        width:320px;
+        height:320px;
+    }
+
+    .energy-ring::after{
+        width:260px;
+        height:260px;
+    }
+
+    .time{
+        font-size:65px;
     }
 }
 
 </style>
+</head>
+
+<body>
+
+<!-- 背景 -->
+
+<div class="space-bg">
+
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+
+</div>
+
+<div class="app">
+
+    <!-- 左侧 -->
+
+    <div class="sidebar">
+
+        <div class="logo">✦</div>
+
+        <div class="nav-btn">⌛</div>
+        <div class="nav-btn">♫</div>
+        <div class="nav-btn">☾</div>
+        <div class="nav-btn">☍</div>
+        <div class="nav-btn">⚙</div>
+
+    </div>
+
+    <!-- 主体 -->
+
+    <div class="main">
+
+        <div class="window">
+
+            <!-- 中间 -->
+
+            <div class="focus-area">
+
+                <div class="energy-ring">
+
+                    <div class="timer-content">
+
+                        <div class="mode">
+                            FOCUS MODE
+                        </div>
+
+                        <div class="time" id="timer">
+                            25:00
+                        </div>
+
+                        <div class="tip">
+                            沉浸当下，未来会如你所愿。
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- 番茄钟选项 -->
+
+                <div class="timer-options">
+
+                    <button class="option-btn"
+                    onclick="setTimer(25)">
+                        🍅 番茄钟 25min
+                    </button>
+
+                    <button class="option-btn"
+                    onclick="setTimer(50)">
+                        📘 深度学习 50min
+                    </button>
+
+                    <button class="option-btn"
+                    onclick="setTimer(15)">
+                        ☕ 短休息 15min
+                    </button>
+
+                </div>
+
+                <!-- 自定义 -->
+
+                <div class="custom-box">
+
+                    <input
+                    type="number"
+                    id="customMinutes"
+                    placeholder="分钟">
+
+                    <button
+                    class="option-btn"
+                    onclick="customTimer()">
+                        自定义时间
+                    </button>
+
+                </div>
+
+                <!-- 控制 -->
+
+                <div class="controls">
+
+                    <button
+                    class="control-btn"
+                    onclick="startTimer()">
+                        开始专注
+                    </button>
+
+                    <button
+                    class="control-btn"
+                    onclick="pauseTimer()">
+                        暂停
+                    </button>
+
+                    <button
+                    class="control-btn"
+                    onclick="resetTimer()">
+                        重置
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- 右侧 -->
+
+            <div class="companion">
+
+                <div class="companion-ui">
+
+                    <div class="title">
+                        夏以昼的陪伴
+                    </div>
+
+                    <div class="quote">
+                        “别分神。<br>
+                        你的每一分钟，<br>
+                        都很重要。”
+                    </div>
+
+                    <div class="signature">
+                        —— Deep Space
+                    </div>
+
+                </div>
+
+                <!-- 这里替换成夏以昼风格 -->
+
+                <img
+                class="character"
+                src="https://cdn.pixabay.com/photo/2024/03/03/17/55/ai-generated-8607805_1280.png">
+
+            </div>
+
+            <!-- 底部 -->
+
+            <div class="bottom-system">
+
+                <div>✦ 深空模式</div>
+                <div>☾ 白噪音</div>
+                <div>♫ 星际环境音</div>
+                <div>⚡ 沉浸专注</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script>
 
-/* ================================= */
-/* 学习记忆系统 */
-/* ================================= */
+/* ========================= */
+/* 星空生成 */
+/* ========================= */
 
-/* 当前科目 */
+const bg = document.querySelector(".space-bg");
 
-let currentSubject = "英语";
+for(let i=0;i<160;i++){
 
-/* 科目数据 */
+    let star = document.createElement("div");
 
-let subjectData = JSON.parse(
-localStorage.getItem("subjectData")
-) || {};
+    star.classList.add("star");
 
-/* 今日数据 */
+    let size = Math.random()*3;
 
-let todayFocus = parseInt(
-localStorage.getItem("todayFocus")
-) || 0;
+    star.style.width = size+"px";
+    star.style.height = size+"px";
 
-let todayPomodoro = parseInt(
-localStorage.getItem("todayPomodoro")
-) || 0;
+    star.style.left = Math.random()*100+"%";
+    star.style.top = Math.random()*100+"%";
 
-/* ================================= */
-/* 设置科目 */
-/* ================================= */
+    star.style.animationDuration =
+    2 + Math.random()*5 + "s";
 
-function setSubject(){
+    bg.appendChild(star);
+}
 
-    const input =
-    document.getElementById(
-    "subjectInput"
-    );
+/* ========================= */
+/* 番茄钟 */
+/* ========================= */
 
-    const value =
-    input.value.trim();
+let totalSeconds = 25 * 60;
 
-    if(value){
+let initialSeconds = totalSeconds;
 
-        currentSubject = value;
+let timer;
 
-        document.getElementById(
-        "currentSubject"
-        ).innerText = value;
+/* 更新时间 */
 
-        localStorage.setItem(
-        "currentSubject",
-        value
-        );
+function updateDisplay(){
 
-        input.value = "";
+    let minutes =
+    Math.floor(totalSeconds / 60);
+
+    let seconds =
+    totalSeconds % 60;
+
+    document.getElementById("timer").innerHTML =
+    `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+}
+
+/* 设置时间 */
+
+function setTimer(minutes){
+
+    totalSeconds = minutes * 60;
+
+    initialSeconds = totalSeconds;
+
+    updateDisplay();
+}
+
+/* 自定义 */
+
+function customTimer(){
+
+    const custom =
+    document.getElementById("customMinutes").value;
+
+    if(custom && custom > 0){
+
+        setTimer(custom);
     }
 }
 
-/* 读取科目 */
+/* 开始 */
 
-function loadSubject(){
+function startTimer(){
 
-    const saved =
-    localStorage.getItem(
-    "currentSubject"
-    );
+    clearInterval(timer);
 
-    if(saved){
+    timer = setInterval(()=>{
 
-        currentSubject = saved;
+        if(totalSeconds > 0){
 
-        document.getElementById(
-        "currentSubject"
-        ).innerText = saved;
-    }
+            totalSeconds--;
+
+            updateDisplay();
+
+        }else{
+
+            clearInterval(timer);
+
+            alert("专注结束，休息一下吧。");
+        }
+
+    },1000);
 }
 
-/* ================================= */
-/* 记录学习时间 */
-/* ================================= */
+/* 暂停 */
 
-function recordStudy(minutes){
+function pauseTimer(){
 
-    /* 今日总时长 */
-
-    todayFocus += minutes;
-
-    localStorage.setItem(
-    "todayFocus",
-    todayFocus
-    );
-
-    /* 番茄数量 */
-
-    todayPomodoro++;
-
-    localStorage.setItem(
-    "todayPomodoro",
-    todayPomodoro
-    );
-
-    /* 科目累计 */
-
-    if(!subjectData[currentSubject]){
-
-        subjectData[currentSubject] = 0;
-    }
-
-    subjectData[currentSubject] += minutes;
-
-    localStorage.setItem(
-    "subjectData",
-    JSON.stringify(subjectData)
-    );
-
-    updateStats();
-
-    renderSubjectList();
+    clearInterval(timer);
 }
 
-/* ================================= */
-/* 更新统计 */
-/* ================================= */
+/* 重置 */
 
-function updateStats(){
+function resetTimer(){
 
-    document.getElementById(
-    "todayFocus"
-    ).innerText =
+    clearInterval(timer);
 
-    (todayFocus / 60).toFixed(1) + "h";
+    totalSeconds = initialSeconds;
 
-    document.getElementById(
-    "todayPomodoro"
-    ).innerText =
-
-    todayPomodoro;
+    updateDisplay();
 }
-
-/* ================================= */
-/* 渲染科目统计 */
-/* ================================= */
-
-function renderSubjectList(){
-
-    const list =
-    document.getElementById(
-    "subjectList"
-    );
-
-    list.innerHTML = "";
-
-    for(let subject in subjectData){
-
-        const item =
-        document.createElement("div");
-
-        item.className =
-        "subject-item";
-
-        item.innerHTML = `
-
-            <div class="subject-name">
-                ${subject}
-            </div>
-
-            <div class="subject-time">
-                ${subjectData[subject]} min
-            </div>
-
-        `;
-
-        list.appendChild(item);
-    }
-}
-
-/* ================================= */
-/* 番茄结束时记录 */
-/* ================================= */
-
-/* 在 handleSessionEnd() 里面 */
-/* focus结束时增加 */
-
-recordStudy(
-initialSeconds / 60
-);
-
-/* ================================= */
-/* 初始化 */
-/* ================================= */
-
-loadSubject();
-
-updateStats();
-
-renderSubjectList();
 
 </script>
+
+</body>
+</html>
