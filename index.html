@@ -1,296 +1,269 @@
-<!-- ========================================= -->
-<!-- Deep Space Focus v6 -->
-<!-- 紫蓝橙高级重构版 -->
-<!-- ========================================= -->
+<!-- ===================================================== -->
+<!-- Deep Space Focus v7 -->
+<!-- 新增： -->
+<!-- 1. 真动态进度环 -->
+<!-- 2. 深空动态背景 -->
+<!-- 3. 页面呼吸感 -->
+<!-- 4. 学习历史系统 -->
+<!-- 5. GitHub热力图 -->
+<!-- 6. 科目排行榜 -->
+<!-- ===================================================== -->
 
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!-- ========================= -->
+<!-- 替换原来的 .energy-ring -->
+<!-- ========================= -->
 
-<head>
+<div class="energy-ring">
 
-<meta charset="UTF-8">
+    <!-- SVG 真进度环 -->
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    <svg class="progress-ring"
+    width="430"
+    height="430">
 
-<title>Deep Space Focus</title>
+        <circle
+        class="ring-bg"
+        cx="215"
+        cy="215"
+        r="180"/>
+
+        <circle
+        class="ring-progress"
+        id="progressCircle"
+        cx="215"
+        cy="215"
+        r="180"/>
+
+    </svg>
+
+    <div class="timer-content">
+
+        <div class="mode">
+            FOCUS MODE
+        </div>
+
+        <div class="time"
+        id="timer">
+
+            25:00
+
+        </div>
+
+        <div class="tip">
+
+            沉浸当下，
+            未来会如你所愿。
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 左侧新增：学习历史 -->
+<!-- 放到 dashboard 最下面 -->
+<!-- ========================= -->
+
+<div class="history-panel">
+
+    <div class="panel-title">
+        ☍ 学习历史
+    </div>
+
+    <div id="historyList">
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 热力图 -->
+<!-- ========================= -->
+
+<div class="heatmap-panel">
+
+    <div class="panel-title">
+        ✦ 学习热力图
+    </div>
+
+    <div class="heatmap"
+    id="heatmap">
+
+    </div>
+
+</div>
+
+<!-- ========================= -->
+<!-- 科目排行榜 -->
+<!-- ========================= -->
+
+<div class="ranking-panel">
+
+    <div class="panel-title">
+        ✦ 科目排行榜
+    </div>
+
+    <div id="rankingList">
+
+    </div>
+
+</div>
 
 <style>
 
-:root{
-
-    --bg:#060816;
-
-    --panel:#111827aa;
-
-    --panel-border:
-    rgba(255,255,255,.08);
-
-    --blue:#5DA9FF;
-
-    --purple:#8B5CFF;
-
-    --orange:#FFB347;
-
-    --text:#F4F7FF;
-
-    --sub:#A9B4D0;
-}
-
-*{
-
-    margin:0;
-    padding:0;
-
-    box-sizing:border-box;
-
-    font-family:
-    "Segoe UI",
-    sans-serif;
-}
-
-body{
-
-    background:
-    radial-gradient(
-    circle at top left,
-    rgba(139,92,255,.22),
-    transparent 25%),
-
-    radial-gradient(
-    circle at bottom right,
-    rgba(93,169,255,.15),
-    transparent 25%),
-
-    linear-gradient(
-    180deg,
-    #040612,
-    #060816);
-
-    overflow:hidden;
-
-    height:100vh;
-
-    color:var(--text);
-}
-
 /* ================================= */
-/* 星空 */
-/* ================================= */
-
-.stars{
-
-    position:fixed;
-
-    inset:0;
-
-    overflow:hidden;
-
-    z-index:0;
-}
-
-.star{
-
-    position:absolute;
-
-    width:2px;
-    height:2px;
-
-    border-radius:50%;
-
-    background:white;
-
-    opacity:.8;
-
-    animation:
-    twinkle linear infinite;
-}
-
-@keyframes twinkle{
-
-    0%{opacity:.2}
-
-    50%{opacity:1}
-
-    100%{opacity:.2}
-}
-
-/* ================================= */
-/* 主布局 */
-/* ================================= */
-
-.app{
-
-    position:relative;
-
-    z-index:2;
-
-    display:flex;
-
-    height:100vh;
-}
-
-/* ================================= */
-/* 左侧栏 */
-/* ================================= */
-
-.sidebar{
-
-    width:90px;
-
-    background:
-    rgba(8,10,25,.65);
-
-    backdrop-filter:
-    blur(24px);
-
-    border-right:
-    1px solid
-    rgba(255,255,255,.06);
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    padding:30px 0;
-
-    gap:28px;
-}
-
-.logo{
-
-    width:56px;
-    height:56px;
-
-    border-radius:18px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-    linear-gradient(
-    145deg,
-    var(--purple),
-    var(--blue));
-
-    font-size:24px;
-
-    box-shadow:
-    0 0 30px
-    rgba(139,92,255,.45);
-}
-
-.nav-btn{
-
-    width:56px;
-    height:56px;
-
-    border-radius:18px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    cursor:pointer;
-
-    background:
-    rgba(255,255,255,.04);
-
-    transition:.3s;
-
-    color:#dbe7ff;
-
-    font-size:20px;
-}
-
-.nav-btn:hover{
-
-    transform:
-    translateY(-4px);
-
-    background:
-    rgba(139,92,255,.15);
-
-    box-shadow:
-    0 0 20px
-    rgba(139,92,255,.25);
-}
-
-/* ================================= */
-/* 主体 */
-/* ================================= */
-
-.main{
-
-    flex:1;
-
-    padding:28px;
-
-    display:grid;
-
-    grid-template-columns:
-    340px
-    1fr
-    360px;
-
-    gap:28px;
-}
-
-/* ================================= */
-/* 卡片 */
+/* 页面呼吸感 */
 /* ================================= */
 
 .panel{
 
-    background:
-    rgba(15,20,40,.45);
+    animation:
+    breathing 6s ease-in-out infinite;
+}
 
-    backdrop-filter:
-    blur(24px);
+@keyframes breathing{
 
-    border:
-    1px solid
-    var(--panel-border);
+    0%{
 
-    border-radius:32px;
+        transform:
+        translateY(0px);
 
-    box-shadow:
-    0 10px 40px
-    rgba(0,0,0,.25);
+        box-shadow:
+        0 10px 40px
+        rgba(0,0,0,.2);
+    }
+
+    50%{
+
+        transform:
+        translateY(-4px);
+
+        box-shadow:
+        0 18px 60px
+        rgba(139,92,255,.18);
+    }
+
+    100%{
+
+        transform:
+        translateY(0px);
+
+        box-shadow:
+        0 10px 40px
+        rgba(0,0,0,.2);
+    }
 }
 
 /* ================================= */
-/* 左边仪表盘 */
+/* 深空背景粒子 */
 /* ================================= */
 
-.dashboard{
+.nebula{
 
-    padding:28px;
+    position:fixed;
 
-    display:flex;
+    width:600px;
+    height:600px;
 
-    flex-direction:column;
+    border-radius:50%;
 
-    gap:22px;
+    filter:blur(120px);
+
+    opacity:.15;
+
+    animation:
+    float 20s ease-in-out infinite;
 }
 
-.panel-title{
+.nebula1{
 
-    font-size:18px;
+    background:#8B5CFF;
 
-    color:#dbe7ff;
-
-    margin-bottom:6px;
+    top:-200px;
+    left:-200px;
 }
 
-/* 当前科目 */
+.nebula2{
 
-.subject-box{
+    background:#5DA9FF;
+
+    right:-200px;
+    bottom:-200px;
+}
+
+@keyframes float{
+
+    0%{
+        transform:
+        translateY(0px)
+        translateX(0px);
+    }
+
+    50%{
+        transform:
+        translateY(-30px)
+        translateX(20px);
+    }
+
+    100%{
+        transform:
+        translateY(0px)
+        translateX(0px);
+    }
+}
+
+/* ================================= */
+/* 真动态进度环 */
+/* ================================= */
+
+.progress-ring{
+
+    position:absolute;
+
+    transform:
+    rotate(-90deg);
+}
+
+.ring-bg{
+
+    fill:none;
+
+    stroke:
+    rgba(255,255,255,.06);
+
+    stroke-width:12;
+}
+
+.ring-progress{
+
+    fill:none;
+
+    stroke:
+    url(#gradient);
+
+    stroke-width:14;
+
+    stroke-linecap:round;
+
+    stroke-dasharray:1130;
+
+    stroke-dashoffset:0;
+
+    transition:
+    stroke-dashoffset 1s linear;
+
+    filter:
+    drop-shadow(
+    0 0 15px
+    rgba(139,92,255,.7));
+}
+
+/* ================================= */
+/* 学习历史 */
+/* ================================= */
+
+.history-panel{
 
     padding:22px;
 
@@ -300,872 +273,210 @@ body{
     rgba(255,255,255,.03);
 }
 
-.subject-input{
-
-    display:flex;
-
-    gap:10px;
-
-    margin-top:18px;
-}
-
-.subject-input input{
-
-    flex:1;
-
-    border:none;
-
-    outline:none;
+.history-item{
 
     padding:14px;
 
-    border-radius:16px;
+    border-radius:14px;
+
+    margin-top:12px;
 
     background:
-    rgba(255,255,255,.06);
+    rgba(255,255,255,.03);
 
-    color:white;
+    color:#cfd8ff;
+
+    line-height:1.8;
 }
 
-.subject-input button{
+/* ================================= */
+/* 热力图 */
+/* ================================= */
 
-    border:none;
+.heatmap-panel{
 
-    padding:14px 18px;
+    margin-top:22px;
 
-    border-radius:16px;
+    padding:22px;
 
-    cursor:pointer;
-
-    color:white;
-
-    background:
-    linear-gradient(
-    145deg,
-    var(--purple),
-    var(--blue));
-}
-
-.current-subject{
-
-    margin-top:14px;
-
-    color:var(--sub);
-}
-
-/* 数据 */
-
-.stats{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(2,1fr);
-
-    gap:16px;
-}
-
-.stat-card{
-
-    padding:20px;
-
-    border-radius:22px;
+    border-radius:24px;
 
     background:
     rgba(255,255,255,.03);
 }
 
-.stat-label{
+.heatmap{
 
-    color:var(--sub);
+    display:grid;
 
-    font-size:14px;
+    grid-template-columns:
+    repeat(7,1fr);
+
+    gap:8px;
+
+    margin-top:18px;
 }
 
-.stat-value{
+.heat-cell{
 
-    margin-top:10px;
+    width:34px;
+    height:34px;
 
-    font-size:34px;
+    border-radius:8px;
 
-    font-weight:600;
+    background:
+    rgba(255,255,255,.05);
+
+    transition:.3s;
 }
 
-/* 科目 */
+/* ================================= */
+/* 排行榜 */
+/* ================================= */
 
-.subject-list{
+.ranking-panel{
 
-    display:flex;
+    margin-top:22px;
 
-    flex-direction:column;
+    padding:22px;
 
-    gap:14px;
+    border-radius:24px;
+
+    background:
+    rgba(255,255,255,.03);
 }
 
-.subject-item{
+.rank-item{
+
+    margin-top:18px;
+}
+
+.rank-top{
 
     display:flex;
 
     justify-content:space-between;
 
-    align-items:center;
+    margin-bottom:10px;
 
-    padding:16px 18px;
-
-    border-radius:18px;
-
-    background:
-    rgba(255,255,255,.03);
+    color:#dce5ff;
 }
 
-.subject-name{
+.rank-bar{
 
-    color:#dbe7ff;
-}
+    height:10px;
 
-.subject-time{
-
-    color:var(--orange);
-
-    font-weight:600;
-}
-
-/* ================================= */
-/* 中间 */
-/* ================================= */
-
-.center{
-
-    position:relative;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-}
-
-/* 环 */
-
-.energy-ring{
-
-    width:430px;
-    height:430px;
-
-    border-radius:50%;
-
-    position:relative;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-}
-
-.energy-ring::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    border-radius:50%;
-
-    background:
-    conic-gradient(
-    from 0deg,
-    var(--purple),
-    var(--blue),
-    var(--orange),
-    var(--purple));
-
-    animation:
-    rotate 8s linear infinite;
-
-    box-shadow:
-    0 0 45px
-    rgba(139,92,255,.4);
-}
-
-.energy-ring::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:360px;
-    height:360px;
-
-    border-radius:50%;
-
-    background:#090d1d;
-}
-
-@keyframes rotate{
-
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
-}
-
-.timer-content{
-
-    position:relative;
-
-    z-index:5;
-
-    text-align:center;
-}
-
-.mode{
-
-    letter-spacing:5px;
-
-    color:#c4d1ff;
-
-    margin-bottom:18px;
-}
-
-.time{
-
-    font-size:92px;
-
-    font-weight:200;
-
-    letter-spacing:4px;
-}
-
-.tip{
-
-    margin-top:18px;
-
-    color:#95a6d7;
-}
-
-/* 按钮 */
-
-.controls{
-
-    margin-top:38px;
-
-    display:flex;
-
-    gap:16px;
-}
-
-.control-btn{
-
-    border:none;
-
-    padding:16px 28px;
-
-    border-radius:18px;
-
-    cursor:pointer;
-
-    color:white;
-
-    font-size:15px;
-
-    transition:.3s;
-}
-
-.primary{
-
-    background:
-    linear-gradient(
-    145deg,
-    var(--purple),
-    var(--blue));
-
-    box-shadow:
-    0 0 24px
-    rgba(139,92,255,.35);
-}
-
-.secondary{
-
-    background:
-    rgba(255,255,255,.06);
-}
-
-.control-btn:hover{
-
-    transform:
-    translateY(-3px);
-}
-
-/* 白噪音 */
-
-.sound-panel{
-
-    margin-top:40px;
-
-    width:520px;
-
-    padding:24px;
-
-    border-radius:28px;
-
-    background:
-    rgba(255,255,255,.04);
-
-    border:
-    1px solid
-    rgba(255,255,255,.06);
-}
-
-.sound-buttons{
-
-    display:flex;
-
-    gap:12px;
-
-    margin-top:18px;
-
-    flex-wrap:wrap;
-}
-
-.sound-btn{
-
-    border:none;
-
-    padding:12px 18px;
-
-    border-radius:14px;
-
-    cursor:pointer;
-
-    color:white;
-
-    background:
-    rgba(255,255,255,.06);
-
-    transition:.3s;
-}
-
-.sound-btn:hover{
-
-    background:
-    rgba(139,92,255,.2);
-}
-
-.volume{
-
-    margin-top:22px;
-}
-
-/* ================================= */
-/* 右侧 */
-/* ================================= */
-
-.companion{
-
-    position:relative;
+    border-radius:10px;
 
     overflow:hidden;
 
-    display:flex;
-
-    align-items:flex-end;
-
-    justify-content:center;
+    background:
+    rgba(255,255,255,.05);
 }
 
-.character{
+.rank-fill{
 
-    position:absolute;
+    height:100%;
 
-    bottom:0;
-
-    right:-20px;
-
-    height:92%;
-
-    opacity:.92;
-
-    filter:
-    drop-shadow(
-    0 0 35px
-    rgba(139,92,255,.3));
-}
-
-.overlay{
-
-    position:absolute;
-
-    inset:0;
+    border-radius:10px;
 
     background:
     linear-gradient(
-    to top,
-    rgba(6,8,22,.95),
-    transparent 45%);
-}
+    90deg,
+    #8B5CFF,
+    #5DA9FF,
+    #FFB347);
 
-.companion-ui{
+    width:0%;
 
-    position:absolute;
-
-    top:50px;
-    left:34px;
-
-    z-index:5;
-}
-
-.companion-title{
-
-    font-size:30px;
-
-    margin-bottom:20px;
-}
-
-.quote{
-
-    line-height:2;
-
-    color:#d9e5ff;
-}
-
-/* ================================= */
-/* 响应式 */
-/* ================================= */
-
-@media(max-width:1400px){
-
-    .main{
-
-        grid-template-columns:
-        320px
-        1fr;
-    }
-
-    .companion{
-
-        display:none;
-    }
-}
-
-@media(max-width:1000px){
-
-    .main{
-
-        grid-template-columns:
-        1fr;
-    }
-
-    .dashboard{
-
-        order:2;
-    }
-
-    .center{
-
-        order:1;
-    }
-
-    .energy-ring{
-
-        width:320px;
-        height:320px;
-    }
-
-    .energy-ring::after{
-
-        width:250px;
-        height:250px;
-    }
-
-    .time{
-
-        font-size:64px;
-    }
-
-    .sound-panel{
-
-        width:95%;
-    }
+    transition:1s;
 }
 
 </style>
 
-</head>
-
-<body>
-
-<div class="stars"
-id="stars"></div>
-
-<div class="app">
-
-    <!-- 左侧 -->
-
-    <div class="sidebar">
-
-        <div class="logo">
-            ✦
-        </div>
-
-        <div class="nav-btn">
-            ⌛
-        </div>
-
-        <div class="nav-btn">
-            ♫
-        </div>
-
-        <div class="nav-btn">
-            ☾
-        </div>
-
-        <div class="nav-btn">
-            ⚙
-        </div>
-
-    </div>
-
-    <!-- 主体 -->
-
-    <div class="main">
-
-        <!-- 左边 -->
-
-        <div class="dashboard panel">
-
-            <!-- 科目 -->
-
-            <div class="subject-box">
-
-                <div class="panel-title">
-                    ✦ 当前学习科目
-                </div>
-
-                <div class="subject-input">
-
-                    <input
-                    id="subjectInput"
-                    placeholder="输入学习科目">
-
-                    <button
-                    onclick="saveSubject()">
-
-                        保存
-
-                    </button>
-
-                </div>
-
-                <div class="current-subject">
-
-                    当前：
-                    <span id="currentSubject">
-                        英语
-                    </span>
-
-                </div>
-
-            </div>
-
-            <!-- 数据 -->
-
-            <div>
-
-                <div class="panel-title">
-                    ☍ 学习统计
-                </div>
-
-                <div class="stats">
-
-                    <div class="stat-card">
-
-                        <div class="stat-label">
-                            今日专注
-                        </div>
-
-                        <div class="stat-value"
-                        id="focusTime">
-
-                            0h
-
-                        </div>
-
-                    </div>
-
-                    <div class="stat-card">
-
-                        <div class="stat-label">
-                            完成番茄
-                        </div>
-
-                        <div class="stat-value"
-                        id="pomodoroCount">
-
-                            0
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- 科目累计 -->
-
-            <div>
-
-                <div class="panel-title">
-                    ✎ 科目学习时长
-                </div>
-
-                <div class="subject-list"
-                id="subjectList">
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- 中间 -->
-
-        <div class="center">
-
-            <div class="energy-ring">
-
-                <div class="timer-content">
-
-                    <div class="mode">
-                        FOCUS MODE
-                    </div>
-
-                    <div class="time"
-                    id="timer">
-
-                        25:00
-
-                    </div>
-
-                    <div class="tip">
-
-                        沉浸当下，
-                        未来会如你所愿。
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- 按钮 -->
-
-            <div class="controls">
-
-                <button
-                class="control-btn primary"
-                onclick="startTimer()">
-
-                    开始专注
-
-                </button>
-
-                <button
-                class="control-btn secondary"
-                onclick="pauseTimer()">
-
-                    暂停
-
-                </button>
-
-                <button
-                class="control-btn secondary"
-                onclick="resetTimer()">
-
-                    重置
-
-                </button>
-
-            </div>
-
-            <!-- 白噪音 -->
-
-            <div class="sound-panel">
-
-                <div class="panel-title">
-                    ☾ 深空环境音
-                </div>
-
-                <div class="sound-buttons">
-
-                    <button
-                    class="sound-btn"
-                    onclick="playSound('rain')">
-
-                        雨声
-
-                    </button>
-
-                    <button
-                    class="sound-btn"
-                    onclick="playSound('space')">
-
-                        深空低频
-
-                    </button>
-
-                    <button
-                    class="sound-btn"
-                    onclick="playSound('library')">
-
-                        图书馆
-
-                    </button>
-
-                    <button
-                    class="sound-btn"
-                    onclick="stopSound()">
-
-                        停止
-
-                    </button>
-
-                </div>
-
-                <div class="volume">
-
-                    <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="0.5"
-                    id="volume">
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- 右边 -->
-
-        <div class="companion panel">
-
-            <div class="companion-ui">
-
-                <div class="companion-title">
-                    夏以昼的陪伴
-                </div>
-
-                <div class="quote">
-
-                    “别分神。<br>
-                    你的每一分钟，<br>
-                    都很重要。”
-
-                </div>
-
-            </div>
-
-            <img
-            class="character"
-            src="https://cdn.pixabay.com/photo/2024/03/03/17/55/ai-generated-8607805_1280.png">
-
-            <div class="overlay"></div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<audio
-id="bgAudio"
-loop></audio>
-
 <script>
 
 /* ================================= */
-/* 星空 */
+/* SVG渐变 */
 /* ================================= */
 
-const stars =
-document.getElementById("stars");
+document.querySelector(".progress-ring")
+.insertAdjacentHTML("beforeend",`
 
-for(let i=0;i<180;i++){
+<defs>
 
-    let star =
-    document.createElement("div");
+<linearGradient
+id="gradient"
+x1="0%"
+y1="0%"
+x2="100%"
+y2="100%">
 
-    star.classList.add("star");
+<stop
+offset="0%"
+stop-color="#8B5CFF"/>
 
-    let size =
-    Math.random()*3;
+<stop
+offset="50%"
+stop-color="#5DA9FF"/>
 
-    star.style.width =
-    size + "px";
+<stop
+offset="100%"
+stop-color="#FFB347"/>
 
-    star.style.height =
-    size + "px";
+</linearGradient>
 
-    star.style.left =
-    Math.random()*100 + "%";
+</defs>
 
-    star.style.top =
-    Math.random()*100 + "%";
+`);
 
-    star.style.animationDuration =
-    2 + Math.random()*4 + "s";
+/* ================================= */
+/* 深空星云 */
+/* ================================= */
 
-    stars.appendChild(star);
+const nebula1 =
+document.createElement("div");
+
+nebula1.className =
+"nebula nebula1";
+
+document.body.appendChild(nebula1);
+
+const nebula2 =
+document.createElement("div");
+
+nebula2.className =
+"nebula nebula2";
+
+document.body.appendChild(nebula2);
+
+/* ================================= */
+/* 真进度环 */
+/* ================================= */
+
+const circle =
+document.getElementById(
+"progressCircle");
+
+const circumference =
+1130;
+
+function updateProgress(){
+
+    const progress =
+    totalSeconds / (25 * 60);
+
+    const offset =
+    circumference -
+    progress * circumference;
+
+    circle.style
+    .strokeDashoffset =
+    offset;
 }
 
 /* ================================= */
-/* 数据 */
-/* ================================= */
-
-let totalSeconds =
-25 * 60;
-
-let timer;
-
-let todayMinutes =
-parseInt(
-localStorage.getItem(
-"todayMinutes")
-) || 0;
-
-let pomodoroCount =
-parseInt(
-localStorage.getItem(
-"pomodoroCount")
-) || 0;
-
-let currentSubject =
-localStorage.getItem(
-"currentSubject"
-) || "英语";
-
-let subjectData =
-JSON.parse(
-localStorage.getItem(
-"subjectData")
-) || {};
-
-document
-.getElementById(
-"currentSubject"
-).innerText =
-currentSubject;
-
-/* ================================= */
-/* 计时 */
+/* 修改 updateDisplay() */
 /* ================================= */
 
 function updateDisplay(){
@@ -1182,48 +493,196 @@ function updateDisplay(){
     .innerText =
 
     `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-}
 
-function startTimer(){
-
-    clearInterval(timer);
-
-    timer =
-    setInterval(()=>{
-
-        if(totalSeconds > 0){
-
-            totalSeconds--;
-
-            updateDisplay();
-
-        }else{
-
-            clearInterval(timer);
-
-            finishSession();
-        }
-
-    },1000);
-}
-
-function pauseTimer(){
-
-    clearInterval(timer);
-}
-
-function resetTimer(){
-
-    clearInterval(timer);
-
-    totalSeconds =
-    25 * 60;
-
-    updateDisplay();
+    updateProgress();
 }
 
 /* ================================= */
-/* 完成 */
+/* 学习历史系统 */
+/* ================================= */
+
+let historyData =
+JSON.parse(
+localStorage.getItem(
+"historyData")
+) || [];
+
+function saveHistory(){
+
+    const today =
+    new Date()
+    .toLocaleDateString();
+
+    const record = {
+
+        date:today,
+
+        subject:
+        currentSubject,
+
+        duration:25
+    };
+
+    historyData.unshift(record);
+
+    if(historyData.length > 20){
+
+        historyData.pop();
+    }
+
+    localStorage.setItem(
+    "historyData",
+    JSON.stringify(historyData)
+    );
+
+    renderHistory();
+}
+
+function renderHistory(){
+
+    const list =
+    document
+    .getElementById(
+    "historyList");
+
+    list.innerHTML = "";
+
+    historyData.forEach(item=>{
+
+        const div =
+        document
+        .createElement("div");
+
+        div.className =
+        "history-item";
+
+        div.innerHTML = `
+
+            📘 ${item.subject}<br>
+
+            ⏳ ${item.duration} min<br>
+
+            📅 ${item.date}
+
+        `;
+
+        list.appendChild(div);
+    });
+}
+
+/* ================================= */
+/* 热力图 */
+/* ================================= */
+
+function renderHeatmap(){
+
+    const heatmap =
+    document
+    .getElementById(
+    "heatmap");
+
+    heatmap.innerHTML = "";
+
+    for(let i=0;i<35;i++){
+
+        const cell =
+        document
+        .createElement("div");
+
+        cell.className =
+        "heat-cell";
+
+        const level =
+        Math.random();
+
+        if(level > .8){
+
+            cell.style.background =
+            "#FFB347";
+
+        }else if(level > .6){
+
+            cell.style.background =
+            "#5DA9FF";
+
+        }else if(level > .3){
+
+            cell.style.background =
+            "#8B5CFF";
+        }
+
+        heatmap.appendChild(cell);
+    }
+}
+
+/* ================================= */
+/* 排行榜 */
+/* ================================= */
+
+function renderRanking(){
+
+    const ranking =
+    document
+    .getElementById(
+    "rankingList");
+
+    ranking.innerHTML = "";
+
+    const subjects =
+    Object.entries(subjectData);
+
+    subjects.sort(
+    (a,b)=>b[1]-a[1]);
+
+    const max =
+    subjects[0]
+    ? subjects[0][1]
+    : 1;
+
+    subjects.forEach(item=>{
+
+        const percent =
+        (item[1]/max)*100;
+
+        const div =
+        document
+        .createElement("div");
+
+        div.className =
+        "rank-item";
+
+        div.innerHTML = `
+
+            <div class="rank-top">
+
+                <span>
+                    ${item[0]}
+                </span>
+
+                <span>
+                    ${(item[1]/60).toFixed(1)}h
+                </span>
+
+            </div>
+
+            <div class="rank-bar">
+
+                <div
+                class="rank-fill"
+                style="width:${percent}%">
+
+                </div>
+
+            </div>
+
+        `;
+
+        ranking.appendChild(div);
+    });
+}
+
+/* ================================= */
+/* 修改 finishSession() */
 /* ================================= */
 
 function finishSession(){
@@ -1251,9 +710,15 @@ function finishSession(){
     "subjectData",
     JSON.stringify(subjectData));
 
+    saveHistory();
+
     renderStats();
 
     renderSubjects();
+
+    renderRanking();
+
+    renderHeatmap();
 
     alert("本次专注完成。");
 
@@ -1261,149 +726,15 @@ function finishSession(){
 }
 
 /* ================================= */
-/* 科目 */
-/* ================================= */
-
-function saveSubject(){
-
-    const value =
-    document
-    .getElementById(
-    "subjectInput")
-    .value
-    .trim();
-
-    if(value){
-
-        currentSubject =
-        value;
-
-        localStorage.setItem(
-        "currentSubject",
-        value);
-
-        document
-        .getElementById(
-        "currentSubject")
-        .innerText = value;
-    }
-}
-
-/* ================================= */
-/* 渲染 */
-/* ================================= */
-
-function renderStats(){
-
-    document
-    .getElementById(
-    "focusTime")
-    .innerText =
-
-    (todayMinutes / 60)
-    .toFixed(1) + "h";
-
-    document
-    .getElementById(
-    "pomodoroCount")
-    .innerText =
-    pomodoroCount;
-}
-
-function renderSubjects(){
-
-    const list =
-    document
-    .getElementById(
-    "subjectList");
-
-    list.innerHTML = "";
-
-    for(let subject
-    in subjectData){
-
-        let item =
-        document
-        .createElement("div");
-
-        item.className =
-        "subject-item";
-
-        item.innerHTML = `
-
-            <div class="subject-name">
-                ${subject}
-            </div>
-
-            <div class="subject-time">
-                ${subjectData[subject]} min
-            </div>
-
-        `;
-
-        list.appendChild(item);
-    }
-}
-
-/* ================================= */
-/* 音频 */
-/* ================================= */
-
-const audio =
-document
-.getElementById(
-"bgAudio");
-
-const sounds = {
-
-    rain:
-    "./assets/audio/rain.mp3",
-
-    space:
-    "./assets/audio/space.mp3",
-
-    library:
-    "./assets/audio/library.mp3"
-};
-
-function playSound(type){
-
-    audio.src =
-    sounds[type];
-
-    audio.play();
-}
-
-function stopSound(){
-
-    audio.pause();
-
-    audio.currentTime = 0;
-}
-
-document
-.getElementById(
-"volume")
-.addEventListener(
-"input",
-e=>{
-
-    audio.volume =
-    e.target.value;
-});
-
-/* ================================= */
 /* 初始化 */
 /* ================================= */
 
-renderStats();
+renderHistory();
 
-renderSubjects();
+renderHeatmap();
 
-updateDisplay();
+renderRanking();
+
+updateProgress();
 
 </script>
-
-</body>
-
-</html>
