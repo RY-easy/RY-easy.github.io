@@ -1,16 +1,19 @@
-<!-- ========================= -->
-<!-- 深空专注系统 v2 -->
-<!-- 更高级沉浸式版本 -->
-<!-- ========================= -->
+<!-- ================================= -->
+<!-- 深空专注系统 v3 -->
+<!-- 增加： -->
+<!-- 1. 夏以昼风格角色区 -->
+<!-- 2. 默认番茄钟 -->
+<!-- 3. 自定义时间 -->
+<!-- 4. 模式切换 -->
+<!-- ================================= -->
 
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Deep Space Focus</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>深空专注系统</title>
 
 <style>
 
@@ -23,86 +26,69 @@
 
 body{
     overflow:hidden;
-    background:#020817;
+    background:#030816;
     color:white;
     height:100vh;
 }
 
 /* ========================= */
-/* 动态宇宙背景 */
+/* 星空背景 */
 /* ========================= */
 
 .space-bg{
-
     position:fixed;
     inset:0;
+    overflow:hidden;
 
     background:
-    radial-gradient(circle at top,#244cff22,transparent 30%),
-    radial-gradient(circle at bottom,#11306644,transparent 40%),
-    linear-gradient(to bottom,#020817,#071122);
-
-    overflow:hidden;
+    radial-gradient(circle at top,#234cff22,transparent 30%),
+    radial-gradient(circle at bottom,#0e2b5544,transparent 40%),
+    linear-gradient(to bottom,#020817,#07111f);
 }
 
-/* 星星 */
-
 .star{
-
     position:absolute;
     background:white;
     border-radius:50%;
-    opacity:.8;
     animation:twinkle linear infinite;
 }
 
 @keyframes twinkle{
-
     0%{opacity:.2}
     50%{opacity:1}
     100%{opacity:.2}
 }
 
-/* 浮动光 */
+/* 光晕 */
 
 .glow{
-
     position:absolute;
     border-radius:50%;
-    filter:blur(80px);
-    opacity:.25;
-    animation:float 12s ease-in-out infinite;
+    filter:blur(100px);
+    opacity:.3;
+    animation:float 10s ease-in-out infinite;
 }
 
 .glow1{
     width:500px;
     height:500px;
-    background:#4d74ff;
+    background:#5077ff;
     top:-100px;
     left:-100px;
 }
 
 .glow2{
-    width:400px;
-    height:400px;
-    background:#5f8bff;
+    width:450px;
+    height:450px;
+    background:#3e5fff;
     right:-100px;
     bottom:-100px;
 }
 
 @keyframes float{
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-30px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-30px)}
+    100%{transform:translateY(0)}
 }
 
 /* ========================= */
@@ -110,16 +96,13 @@ body{
 /* ========================= */
 
 .app{
-
     display:flex;
     height:100vh;
     position:relative;
     z-index:2;
 }
 
-/* ========================= */
-/* 左侧导航 */
-/* ========================= */
+/* 左侧 */
 
 .sidebar{
 
@@ -133,6 +116,7 @@ body{
 
     display:flex;
     flex-direction:column;
+
     align-items:center;
 
     padding:30px 0;
@@ -142,23 +126,22 @@ body{
 
 .logo{
 
-    width:54px;
-    height:54px;
+    width:56px;
+    height:56px;
 
     border-radius:18px;
-
-    background:
-    linear-gradient(145deg,#8db5ff,#5578ff);
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    font-size:22px;
-    font-weight:bold;
+    background:
+    linear-gradient(145deg,#8db5ff,#5578ff);
+
+    font-size:24px;
 
     box-shadow:
-    0 0 25px rgba(112,150,255,.55);
+    0 0 25px rgba(120,160,255,.45);
 }
 
 .nav-btn{
@@ -168,21 +151,17 @@ body{
 
     border-radius:18px;
 
-    background:rgba(255,255,255,.04);
-
-    border:1px solid rgba(255,255,255,.05);
-
-    color:#dce5ff;
-
-    font-size:22px;
-
     display:flex;
     align-items:center;
     justify-content:center;
 
+    background:rgba(255,255,255,.04);
+
+    color:#dce5ff;
+
     cursor:pointer;
 
-    transition:.35s;
+    transition:.3s;
 }
 
 .nav-btn:hover{
@@ -192,11 +171,11 @@ body{
     background:rgba(120,160,255,.12);
 
     box-shadow:
-    0 0 25px rgba(120,160,255,.2);
+    0 0 20px rgba(120,160,255,.2);
 }
 
 /* ========================= */
-/* 中间区域 */
+/* 主区域 */
 /* ========================= */
 
 .main{
@@ -206,11 +185,7 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-
-    position:relative;
 }
-
-/* 宇宙舷窗 */
 
 .window{
 
@@ -219,30 +194,26 @@ body{
 
     border-radius:42px;
 
+    overflow:hidden;
+
+    position:relative;
+
     background:
     linear-gradient(
     145deg,
     rgba(20,30,60,.55),
     rgba(10,15,35,.35));
 
-    backdrop-filter:blur(35px);
+    backdrop-filter:blur(30px);
 
     border:
     1px solid rgba(255,255,255,.08);
-
-    box-shadow:
-    0 0 60px rgba(0,0,0,.45),
-    inset 0 0 60px rgba(255,255,255,.03);
-
-    position:relative;
-
-    overflow:hidden;
 
     display:flex;
 }
 
 /* ========================= */
-/* 中间计时区 */
+/* 中间专注区 */
 /* ========================= */
 
 .focus-area{
@@ -251,13 +222,14 @@ body{
 
     display:flex;
     flex-direction:column;
+
     align-items:center;
     justify-content:center;
 
     position:relative;
 }
 
-/* 动态能源环 */
+/* 能源环 */
 
 .energy-ring{
 
@@ -275,21 +247,6 @@ body{
     animation:ringFloat 6s ease-in-out infinite;
 }
 
-@keyframes ringFloat{
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-12px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
-}
-
 .energy-ring::before{
 
     content:"";
@@ -305,15 +262,12 @@ body{
     from 0deg,
     #6ea1ff,
     #dbe6ff,
-    #5f83ff,
     #6ea1ff);
 
     animation:rotate 10s linear infinite;
 
-    filter:blur(.5px);
-
     box-shadow:
-    0 0 35px rgba(120,160,255,.65);
+    0 0 35px rgba(120,160,255,.6);
 }
 
 .energy-ring::after{
@@ -328,23 +282,20 @@ body{
     border-radius:50%;
 
     background:#07111f;
-
-    border:
-    1px solid rgba(255,255,255,.05);
 }
 
 @keyframes rotate{
-
-    from{
-        transform:rotate(0deg);
-    }
-
-    to{
-        transform:rotate(360deg);
-    }
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
 }
 
-/* 内部 */
+@keyframes ringFloat{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+    100%{transform:translateY(0)}
+}
+
+/* 内容 */
 
 .timer-content{
 
@@ -353,42 +304,109 @@ body{
 
     display:flex;
     flex-direction:column;
+
     align-items:center;
 }
 
 .mode{
 
     color:#a8bcff;
+
     letter-spacing:4px;
 
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 .time{
 
-    font-size:92px;
+    font-size:90px;
     font-weight:200;
 
     letter-spacing:4px;
-
-    text-shadow:
-    0 0 20px rgba(160,190,255,.35);
 }
 
 .tip{
 
-    margin-top:18px;
+    margin-top:15px;
 
     color:#8ea2da;
-
-    font-size:15px;
 }
 
-/* 控制按钮 */
+/* 模式选择 */
+
+.timer-options{
+
+    margin-top:40px;
+
+    display:flex;
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.option-btn{
+
+    padding:12px 20px;
+
+    border-radius:14px;
+
+    border:none;
+
+    background:
+    rgba(255,255,255,.06);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.option-btn:hover{
+
+    background:
+    rgba(120,160,255,.2);
+}
+
+/* 自定义 */
+
+.custom-box{
+
+    margin-top:20px;
+
+    display:flex;
+    gap:10px;
+
+    align-items:center;
+}
+
+.custom-box input{
+
+    width:100px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    border:none;
+
+    outline:none;
+
+    background:
+    rgba(255,255,255,.08);
+
+    color:white;
+
+    text-align:center;
+}
+
+/* 按钮 */
 
 .controls{
 
-    margin-top:45px;
+    margin-top:35px;
 
     display:flex;
     gap:18px;
@@ -406,30 +424,25 @@ body{
 
     cursor:pointer;
 
-    font-size:16px;
-
     background:
     linear-gradient(
     145deg,
     #8db5ff,
-    #5a7bff);
+    #5578ff);
 
     box-shadow:
     0 0 25px rgba(120,160,255,.35);
 
-    transition:.35s;
+    transition:.3s;
 }
 
 .control-btn:hover{
 
     transform:translateY(-3px);
-
-    box-shadow:
-    0 0 35px rgba(120,160,255,.55);
 }
 
 /* ========================= */
-/* 右侧陪伴系统 */
+/* 右侧陪伴区 */
 /* ========================= */
 
 .companion{
@@ -441,30 +454,13 @@ body{
     border-left:
     1px solid rgba(255,255,255,.06);
 
-    background:
-    linear-gradient(
-    to bottom,
-    rgba(15,20,40,.28),
-    rgba(5,10,20,.18));
-
     overflow:hidden;
-}
-
-/* 全息光 */
-
-.holo{
-
-    position:absolute;
-
-    inset:0;
 
     background:
     linear-gradient(
     to bottom,
-    transparent,
-    rgba(120,160,255,.08));
-
-    pointer-events:none;
+    rgba(15,20,40,.35),
+    rgba(5,10,20,.2));
 }
 
 /* 人物 */
@@ -473,46 +469,37 @@ body{
 
     position:absolute;
 
-    right:-40px;
+    right:-20px;
     bottom:0;
 
-    height:92%;
+    height:95%;
 
-    opacity:.92;
+    opacity:.95;
 
     filter:
-    drop-shadow(0 0 35px rgba(140,180,255,.25));
+    drop-shadow(0 0 35px rgba(120,160,255,.25));
 
-    animation:characterFloat 5s ease-in-out infinite;
+    animation:floatChar 5s ease-in-out infinite;
 }
 
-@keyframes characterFloat{
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-10px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
+@keyframes floatChar{
+    0%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+    100%{transform:translateY(0)}
 }
 
-/* 文字 */
+/* UI */
 
 .companion-ui{
 
     position:absolute;
 
-    top:60px;
     left:35px;
+    top:60px;
 
     z-index:5;
 
-    width:240px;
+    width:230px;
 }
 
 .title{
@@ -538,27 +525,25 @@ body{
     color:#89a0dc;
 }
 
-/* ========================= */
-/* 底部系统栏 */
-/* ========================= */
+/* 底部 */
 
 .bottom-system{
 
     position:absolute;
 
     left:50%;
-    bottom:35px;
+    bottom:30px;
 
     transform:translateX(-50%);
 
     width:560px;
 
-    height:74px;
+    height:72px;
 
     border-radius:24px;
 
     background:
-    rgba(10,15,30,.55);
+    rgba(10,15,30,.5);
 
     backdrop-filter:blur(25px);
 
@@ -566,20 +551,12 @@ body{
     1px solid rgba(255,255,255,.08);
 
     display:flex;
+
     align-items:center;
     justify-content:space-around;
 }
 
-.system-item{
-
-    color:#dce5ff;
-
-    font-size:15px;
-}
-
-/* ========================= */
 /* 响应式 */
-/* ========================= */
 
 @media(max-width:1200px){
 
@@ -598,7 +575,7 @@ body{
     }
 
     .time{
-        font-size:70px;
+        font-size:65px;
     }
 }
 
@@ -607,7 +584,7 @@ body{
 
 <body>
 
-<!-- 动态背景 -->
+<!-- 背景 -->
 
 <div class="space-bg">
 
@@ -615,8 +592,6 @@ body{
     <div class="glow glow2"></div>
 
 </div>
-
-<!-- 主体 -->
 
 <div class="app">
 
@@ -634,13 +609,13 @@ body{
 
     </div>
 
-    <!-- 中间 -->
+    <!-- 主体 -->
 
     <div class="main">
 
         <div class="window">
 
-            <!-- 计时区 -->
+            <!-- 中间 -->
 
             <div class="focus-area">
 
@@ -664,23 +639,71 @@ body{
 
                 </div>
 
+                <!-- 番茄钟选项 -->
+
+                <div class="timer-options">
+
+                    <button class="option-btn"
+                    onclick="setTimer(25)">
+                        🍅 番茄钟 25min
+                    </button>
+
+                    <button class="option-btn"
+                    onclick="setTimer(50)">
+                        📘 深度学习 50min
+                    </button>
+
+                    <button class="option-btn"
+                    onclick="setTimer(15)">
+                        ☕ 短休息 15min
+                    </button>
+
+                </div>
+
+                <!-- 自定义 -->
+
+                <div class="custom-box">
+
+                    <input
+                    type="number"
+                    id="customMinutes"
+                    placeholder="分钟">
+
+                    <button
+                    class="option-btn"
+                    onclick="customTimer()">
+                        自定义时间
+                    </button>
+
+                </div>
+
+                <!-- 控制 -->
+
                 <div class="controls">
 
-                    <button class="control-btn"
+                    <button
+                    class="control-btn"
                     onclick="startTimer()">
                         开始专注
                     </button>
 
-                    <button class="control-btn"
+                    <button
+                    class="control-btn"
                     onclick="pauseTimer()">
                         暂停
+                    </button>
+
+                    <button
+                    class="control-btn"
+                    onclick="resetTimer()">
+                        重置
                     </button>
 
                 </div>
 
             </div>
 
-            <!-- 陪伴系统 -->
+            <!-- 右侧 -->
 
             <div class="companion">
 
@@ -697,40 +720,27 @@ body{
                     </div>
 
                     <div class="signature">
-                        —— 深空陪伴系统
+                        —— Deep Space
                     </div>
 
                 </div>
 
-                <!-- 这里后面可以替换成更像夏以昼的图 -->
+                <!-- 这里替换成夏以昼风格 -->
 
                 <img
                 class="character"
-                src="https://i.imgur.com/8Km9tLL.png">
-
-                <div class="holo"></div>
+                src="https://cdn.pixabay.com/photo/2024/03/03/17/55/ai-generated-8607805_1280.png">
 
             </div>
 
-            <!-- 底部系统 -->
+            <!-- 底部 -->
 
             <div class="bottom-system">
 
-                <div class="system-item">
-                    ✦ 深空模式
-                </div>
-
-                <div class="system-item">
-                    ☾ 白噪音
-                </div>
-
-                <div class="system-item">
-                    ♫ 星际环境音
-                </div>
-
-                <div class="system-item">
-                    ⚡ 沉浸专注
-                </div>
+                <div>✦ 深空模式</div>
+                <div>☾ 白噪音</div>
+                <div>♫ 星际环境音</div>
+                <div>⚡ 沉浸专注</div>
 
             </div>
 
@@ -774,7 +784,11 @@ for(let i=0;i<160;i++){
 
 let totalSeconds = 25 * 60;
 
+let initialSeconds = totalSeconds;
+
 let timer;
+
+/* 更新时间 */
 
 function updateDisplay(){
 
@@ -787,6 +801,32 @@ function updateDisplay(){
     document.getElementById("timer").innerHTML =
     `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
 }
+
+/* 设置时间 */
+
+function setTimer(minutes){
+
+    totalSeconds = minutes * 60;
+
+    initialSeconds = totalSeconds;
+
+    updateDisplay();
+}
+
+/* 自定义 */
+
+function customTimer(){
+
+    const custom =
+    document.getElementById("customMinutes").value;
+
+    if(custom && custom > 0){
+
+        setTimer(custom);
+    }
+}
+
+/* 开始 */
 
 function startTimer(){
 
@@ -804,16 +844,28 @@ function startTimer(){
 
             clearInterval(timer);
 
-            alert("专注结束。");
-
+            alert("专注结束，休息一下吧。");
         }
 
     },1000);
 }
 
+/* 暂停 */
+
 function pauseTimer(){
 
     clearInterval(timer);
+}
+
+/* 重置 */
+
+function resetTimer(){
+
+    clearInterval(timer);
+
+    totalSeconds = initialSeconds;
+
+    updateDisplay();
 }
 
 </script>
