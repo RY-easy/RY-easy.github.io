@@ -1,120 +1,155 @@
-<!-- ================================= -->
-<!-- 深空专注系统 v3 -->
-<!-- 增加： -->
-<!-- 1. 夏以昼风格角色区 -->
-<!-- 2. 默认番茄钟 -->
-<!-- 3. 自定义时间 -->
-<!-- 4. 模式切换 -->
-<!-- ================================= -->
+<!-- ========================================= -->
+<!-- Deep Space Focus v6 -->
+<!-- 紫蓝橙高级重构版 -->
+<!-- ========================================= -->
 
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>深空专注系统</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Deep Space Focus</title>
 
 <style>
 
+:root{
+
+    --bg:#060816;
+
+    --panel:#111827aa;
+
+    --panel-border:
+    rgba(255,255,255,.08);
+
+    --blue:#5DA9FF;
+
+    --purple:#8B5CFF;
+
+    --orange:#FFB347;
+
+    --text:#F4F7FF;
+
+    --sub:#A9B4D0;
+}
+
 *{
+
     margin:0;
     padding:0;
+
     box-sizing:border-box;
-    font-family:"Segoe UI",sans-serif;
+
+    font-family:
+    "Segoe UI",
+    sans-serif;
 }
 
 body{
-    overflow:hidden;
-    background:#030816;
-    color:white;
-    height:100vh;
-}
-
-/* ========================= */
-/* 星空背景 */
-/* ========================= */
-
-.space-bg{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
 
     background:
-    radial-gradient(circle at top,#234cff22,transparent 30%),
-    radial-gradient(circle at bottom,#0e2b5544,transparent 40%),
-    linear-gradient(to bottom,#020817,#07111f);
+    radial-gradient(
+    circle at top left,
+    rgba(139,92,255,.22),
+    transparent 25%),
+
+    radial-gradient(
+    circle at bottom right,
+    rgba(93,169,255,.15),
+    transparent 25%),
+
+    linear-gradient(
+    180deg,
+    #040612,
+    #060816);
+
+    overflow:hidden;
+
+    height:100vh;
+
+    color:var(--text);
+}
+
+/* ================================= */
+/* 星空 */
+/* ================================= */
+
+.stars{
+
+    position:fixed;
+
+    inset:0;
+
+    overflow:hidden;
+
+    z-index:0;
 }
 
 .star{
+
     position:absolute;
-    background:white;
+
+    width:2px;
+    height:2px;
+
     border-radius:50%;
-    animation:twinkle linear infinite;
+
+    background:white;
+
+    opacity:.8;
+
+    animation:
+    twinkle linear infinite;
 }
 
 @keyframes twinkle{
+
     0%{opacity:.2}
+
     50%{opacity:1}
+
     100%{opacity:.2}
 }
 
-/* 光晕 */
-
-.glow{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(100px);
-    opacity:.3;
-    animation:float 10s ease-in-out infinite;
-}
-
-.glow1{
-    width:500px;
-    height:500px;
-    background:#5077ff;
-    top:-100px;
-    left:-100px;
-}
-
-.glow2{
-    width:450px;
-    height:450px;
-    background:#3e5fff;
-    right:-100px;
-    bottom:-100px;
-}
-
-@keyframes float{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-30px)}
-    100%{transform:translateY(0)}
-}
-
-/* ========================= */
+/* ================================= */
 /* 主布局 */
-/* ========================= */
+/* ================================= */
 
 .app{
-    display:flex;
-    height:100vh;
+
     position:relative;
+
     z-index:2;
+
+    display:flex;
+
+    height:100vh;
 }
 
-/* 左侧 */
+/* ================================= */
+/* 左侧栏 */
+/* ================================= */
 
 .sidebar{
 
     width:90px;
 
-    background:rgba(10,15,30,.45);
+    background:
+    rgba(8,10,25,.65);
 
-    backdrop-filter:blur(20px);
+    backdrop-filter:
+    blur(24px);
 
-    border-right:1px solid rgba(255,255,255,.08);
+    border-right:
+    1px solid
+    rgba(255,255,255,.06);
 
     display:flex;
+
     flex-direction:column;
 
     align-items:center;
@@ -132,119 +167,300 @@ body{
     border-radius:18px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     background:
-    linear-gradient(145deg,#8db5ff,#5578ff);
+    linear-gradient(
+    145deg,
+    var(--purple),
+    var(--blue));
 
     font-size:24px;
 
     box-shadow:
-    0 0 25px rgba(120,160,255,.45);
+    0 0 30px
+    rgba(139,92,255,.45);
 }
 
 .nav-btn{
 
-    width:58px;
-    height:58px;
+    width:56px;
+    height:56px;
 
     border-radius:18px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
-    background:rgba(255,255,255,.04);
-
-    color:#dce5ff;
-
     cursor:pointer;
 
+    background:
+    rgba(255,255,255,.04);
+
     transition:.3s;
+
+    color:#dbe7ff;
+
+    font-size:20px;
 }
 
 .nav-btn:hover{
 
-    transform:translateY(-4px);
+    transform:
+    translateY(-4px);
 
-    background:rgba(120,160,255,.12);
+    background:
+    rgba(139,92,255,.15);
 
     box-shadow:
-    0 0 20px rgba(120,160,255,.2);
+    0 0 20px
+    rgba(139,92,255,.25);
 }
 
-/* ========================= */
-/* 主区域 */
-/* ========================= */
+/* ================================= */
+/* 主体 */
+/* ================================= */
 
 .main{
 
     flex:1;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    padding:28px;
+
+    display:grid;
+
+    grid-template-columns:
+    340px
+    1fr
+    360px;
+
+    gap:28px;
 }
 
-.window{
+/* ================================= */
+/* 卡片 */
+/* ================================= */
 
-    width:88%;
-    height:88vh;
+.panel{
 
-    border-radius:42px;
+    background:
+    rgba(15,20,40,.45);
 
-    overflow:hidden;
+    backdrop-filter:
+    blur(24px);
 
-    position:relative;
+    border:
+    1px solid
+    var(--panel-border);
+
+    border-radius:32px;
+
+    box-shadow:
+    0 10px 40px
+    rgba(0,0,0,.25);
+}
+
+/* ================================= */
+/* 左边仪表盘 */
+/* ================================= */
+
+.dashboard{
+
+    padding:28px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+}
+
+.panel-title{
+
+    font-size:18px;
+
+    color:#dbe7ff;
+
+    margin-bottom:6px;
+}
+
+/* 当前科目 */
+
+.subject-box{
+
+    padding:22px;
+
+    border-radius:24px;
+
+    background:
+    rgba(255,255,255,.03);
+}
+
+.subject-input{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:18px;
+}
+
+.subject-input input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    padding:14px;
+
+    border-radius:16px;
+
+    background:
+    rgba(255,255,255,.06);
+
+    color:white;
+}
+
+.subject-input button{
+
+    border:none;
+
+    padding:14px 18px;
+
+    border-radius:16px;
+
+    cursor:pointer;
+
+    color:white;
 
     background:
     linear-gradient(
     145deg,
-    rgba(20,30,60,.55),
-    rgba(10,15,35,.35));
-
-    backdrop-filter:blur(30px);
-
-    border:
-    1px solid rgba(255,255,255,.08);
-
-    display:flex;
+    var(--purple),
+    var(--blue));
 }
 
-/* ========================= */
-/* 中间专注区 */
-/* ========================= */
+.current-subject{
 
-.focus-area{
+    margin-top:14px;
 
-    flex:1;
+    color:var(--sub);
+}
+
+/* 数据 */
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:16px;
+}
+
+.stat-card{
+
+    padding:20px;
+
+    border-radius:22px;
+
+    background:
+    rgba(255,255,255,.03);
+}
+
+.stat-label{
+
+    color:var(--sub);
+
+    font-size:14px;
+}
+
+.stat-value{
+
+    margin-top:10px;
+
+    font-size:34px;
+
+    font-weight:600;
+}
+
+/* 科目 */
+
+.subject-list{
 
     display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+}
+
+.subject-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,.03);
+}
+
+.subject-name{
+
+    color:#dbe7ff;
+}
+
+.subject-time{
+
+    color:var(--orange);
+
+    font-weight:600;
+}
+
+/* ================================= */
+/* 中间 */
+/* ================================= */
+
+.center{
+
+    position:relative;
+
+    display:flex;
+
     flex-direction:column;
 
     align-items:center;
     justify-content:center;
-
-    position:relative;
 }
 
-/* 能源环 */
+/* 环 */
 
 .energy-ring{
 
-    width:420px;
-    height:420px;
+    width:430px;
+    height:430px;
 
     border-radius:50%;
 
     position:relative;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
-
-    animation:ringFloat 6s ease-in-out infinite;
 }
 
 .energy-ring::before{
@@ -260,14 +476,17 @@ body{
     background:
     conic-gradient(
     from 0deg,
-    #6ea1ff,
-    #dbe6ff,
-    #6ea1ff);
+    var(--purple),
+    var(--blue),
+    var(--orange),
+    var(--purple));
 
-    animation:rotate 10s linear infinite;
+    animation:
+    rotate 8s linear infinite;
 
     box-shadow:
-    0 0 35px rgba(120,160,255,.6);
+    0 0 45px
+    rgba(139,92,255,.4);
 }
 
 .energy-ring::after{
@@ -281,45 +500,42 @@ body{
 
     border-radius:50%;
 
-    background:#07111f;
+    background:#090d1d;
 }
 
 @keyframes rotate{
-    from{transform:rotate(0deg)}
-    to{transform:rotate(360deg)}
-}
 
-@keyframes ringFloat{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-10px)}
-    100%{transform:translateY(0)}
-}
+    from{
+        transform:rotate(0deg);
+    }
 
-/* 内容 */
+    to{
+        transform:rotate(360deg);
+    }
+}
 
 .timer-content{
 
     position:relative;
+
     z-index:5;
 
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
+    text-align:center;
 }
 
 .mode{
 
-    color:#a8bcff;
+    letter-spacing:5px;
 
-    letter-spacing:4px;
+    color:#c4d1ff;
 
     margin-bottom:18px;
 }
 
 .time{
 
-    font-size:90px;
+    font-size:92px;
+
     font-weight:200;
 
     letter-spacing:4px;
@@ -327,271 +543,264 @@ body{
 
 .tip{
 
-    margin-top:15px;
+    margin-top:18px;
 
-    color:#8ea2da;
-}
-
-/* 模式选择 */
-
-.timer-options{
-
-    margin-top:40px;
-
-    display:flex;
-    gap:12px;
-
-    flex-wrap:wrap;
-
-    justify-content:center;
-}
-
-.option-btn{
-
-    padding:12px 20px;
-
-    border-radius:14px;
-
-    border:none;
-
-    background:
-    rgba(255,255,255,.06);
-
-    color:white;
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-.option-btn:hover{
-
-    background:
-    rgba(120,160,255,.2);
-}
-
-/* 自定义 */
-
-.custom-box{
-
-    margin-top:20px;
-
-    display:flex;
-    gap:10px;
-
-    align-items:center;
-}
-
-.custom-box input{
-
-    width:100px;
-
-    padding:12px;
-
-    border-radius:12px;
-
-    border:none;
-
-    outline:none;
-
-    background:
-    rgba(255,255,255,.08);
-
-    color:white;
-
-    text-align:center;
+    color:#95a6d7;
 }
 
 /* 按钮 */
 
 .controls{
 
-    margin-top:35px;
+    margin-top:38px;
 
     display:flex;
-    gap:18px;
+
+    gap:16px;
 }
 
 .control-btn{
 
-    padding:16px 34px;
-
     border:none;
+
+    padding:16px 28px;
 
     border-radius:18px;
 
-    color:white;
-
     cursor:pointer;
 
-    background:
-    linear-gradient(
-    145deg,
-    #8db5ff,
-    #5578ff);
+    color:white;
 
-    box-shadow:
-    0 0 25px rgba(120,160,255,.35);
+    font-size:15px;
 
     transition:.3s;
 }
 
-.control-btn:hover{
-
-    transform:translateY(-3px);
-}
-
-/* ========================= */
-/* 右侧陪伴区 */
-/* ========================= */
-
-.companion{
-
-    width:360px;
-
-    position:relative;
-
-    border-left:
-    1px solid rgba(255,255,255,.06);
-
-    overflow:hidden;
+.primary{
 
     background:
     linear-gradient(
-    to bottom,
-    rgba(15,20,40,.35),
-    rgba(5,10,20,.2));
+    145deg,
+    var(--purple),
+    var(--blue));
+
+    box-shadow:
+    0 0 24px
+    rgba(139,92,255,.35);
 }
 
-/* 人物 */
+.secondary{
+
+    background:
+    rgba(255,255,255,.06);
+}
+
+.control-btn:hover{
+
+    transform:
+    translateY(-3px);
+}
+
+/* 白噪音 */
+
+.sound-panel{
+
+    margin-top:40px;
+
+    width:520px;
+
+    padding:24px;
+
+    border-radius:28px;
+
+    background:
+    rgba(255,255,255,.04);
+
+    border:
+    1px solid
+    rgba(255,255,255,.06);
+}
+
+.sound-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:18px;
+
+    flex-wrap:wrap;
+}
+
+.sound-btn{
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:
+    rgba(255,255,255,.06);
+
+    transition:.3s;
+}
+
+.sound-btn:hover{
+
+    background:
+    rgba(139,92,255,.2);
+}
+
+.volume{
+
+    margin-top:22px;
+}
+
+/* ================================= */
+/* 右侧 */
+/* ================================= */
+
+.companion{
+
+    position:relative;
+
+    overflow:hidden;
+
+    display:flex;
+
+    align-items:flex-end;
+
+    justify-content:center;
+}
 
 .character{
 
     position:absolute;
 
-    right:-20px;
     bottom:0;
 
-    height:95%;
+    right:-20px;
 
-    opacity:.95;
+    height:92%;
+
+    opacity:.92;
 
     filter:
-    drop-shadow(0 0 35px rgba(120,160,255,.25));
-
-    animation:floatChar 5s ease-in-out infinite;
+    drop-shadow(
+    0 0 35px
+    rgba(139,92,255,.3));
 }
 
-@keyframes floatChar{
-    0%{transform:translateY(0)}
-    50%{transform:translateY(-10px)}
-    100%{transform:translateY(0)}
-}
+.overlay{
 
-/* UI */
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+    to top,
+    rgba(6,8,22,.95),
+    transparent 45%);
+}
 
 .companion-ui{
 
     position:absolute;
 
-    left:35px;
-    top:60px;
+    top:50px;
+    left:34px;
 
     z-index:5;
-
-    width:230px;
 }
 
-.title{
+.companion-title{
 
-    font-size:28px;
+    font-size:30px;
 
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .quote{
 
     line-height:2;
 
-    color:#dce5ff;
-
-    font-size:18px;
+    color:#d9e5ff;
 }
 
-.signature{
-
-    margin-top:20px;
-
-    color:#89a0dc;
-}
-
-/* 底部 */
-
-.bottom-system{
-
-    position:absolute;
-
-    left:50%;
-    bottom:30px;
-
-    transform:translateX(-50%);
-
-    width:560px;
-
-    height:72px;
-
-    border-radius:24px;
-
-    background:
-    rgba(10,15,30,.5);
-
-    backdrop-filter:blur(25px);
-
-    border:
-    1px solid rgba(255,255,255,.08);
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-around;
-}
-
+/* ================================= */
 /* 响应式 */
+/* ================================= */
 
-@media(max-width:1200px){
+@media(max-width:1400px){
+
+    .main{
+
+        grid-template-columns:
+        320px
+        1fr;
+    }
 
     .companion{
+
         display:none;
+    }
+}
+
+@media(max-width:1000px){
+
+    .main{
+
+        grid-template-columns:
+        1fr;
+    }
+
+    .dashboard{
+
+        order:2;
+    }
+
+    .center{
+
+        order:1;
     }
 
     .energy-ring{
+
         width:320px;
         height:320px;
     }
 
     .energy-ring::after{
-        width:260px;
-        height:260px;
+
+        width:250px;
+        height:250px;
     }
 
     .time{
-        font-size:65px;
+
+        font-size:64px;
+    }
+
+    .sound-panel{
+
+        width:95%;
     }
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- 背景 -->
-
-<div class="space-bg">
-
-    <div class="glow glow1"></div>
-    <div class="glow glow2"></div>
-
-</div>
+<div class="stars"
+id="stars"></div>
 
 <div class="app">
 
@@ -599,13 +808,25 @@ body{
 
     <div class="sidebar">
 
-        <div class="logo">✦</div>
+        <div class="logo">
+            ✦
+        </div>
 
-        <div class="nav-btn">⌛</div>
-        <div class="nav-btn">♫</div>
-        <div class="nav-btn">☾</div>
-        <div class="nav-btn">☍</div>
-        <div class="nav-btn">⚙</div>
+        <div class="nav-btn">
+            ⌛
+        </div>
+
+        <div class="nav-btn">
+            ♫
+        </div>
+
+        <div class="nav-btn">
+            ☾
+        </div>
+
+        <div class="nav-btn">
+            ⚙
+        </div>
 
     </div>
 
@@ -613,136 +834,250 @@ body{
 
     <div class="main">
 
-        <div class="window">
+        <!-- 左边 -->
 
-            <!-- 中间 -->
+        <div class="dashboard panel">
 
-            <div class="focus-area">
+            <!-- 科目 -->
 
-                <div class="energy-ring">
+            <div class="subject-box">
 
-                    <div class="timer-content">
-
-                        <div class="mode">
-                            FOCUS MODE
-                        </div>
-
-                        <div class="time" id="timer">
-                            25:00
-                        </div>
-
-                        <div class="tip">
-                            沉浸当下，未来会如你所愿。
-                        </div>
-
-                    </div>
-
+                <div class="panel-title">
+                    ✦ 当前学习科目
                 </div>
 
-                <!-- 番茄钟选项 -->
-
-                <div class="timer-options">
-
-                    <button class="option-btn"
-                    onclick="setTimer(25)">
-                        🍅 番茄钟 25min
-                    </button>
-
-                    <button class="option-btn"
-                    onclick="setTimer(50)">
-                        📘 深度学习 50min
-                    </button>
-
-                    <button class="option-btn"
-                    onclick="setTimer(15)">
-                        ☕ 短休息 15min
-                    </button>
-
-                </div>
-
-                <!-- 自定义 -->
-
-                <div class="custom-box">
+                <div class="subject-input">
 
                     <input
-                    type="number"
-                    id="customMinutes"
-                    placeholder="分钟">
+                    id="subjectInput"
+                    placeholder="输入学习科目">
 
                     <button
-                    class="option-btn"
-                    onclick="customTimer()">
-                        自定义时间
+                    onclick="saveSubject()">
+
+                        保存
+
                     </button>
 
                 </div>
 
-                <!-- 控制 -->
+                <div class="current-subject">
 
-                <div class="controls">
-
-                    <button
-                    class="control-btn"
-                    onclick="startTimer()">
-                        开始专注
-                    </button>
-
-                    <button
-                    class="control-btn"
-                    onclick="pauseTimer()">
-                        暂停
-                    </button>
-
-                    <button
-                    class="control-btn"
-                    onclick="resetTimer()">
-                        重置
-                    </button>
+                    当前：
+                    <span id="currentSubject">
+                        英语
+                    </span>
 
                 </div>
 
             </div>
 
-            <!-- 右侧 -->
+            <!-- 数据 -->
 
-            <div class="companion">
+            <div>
 
-                <div class="companion-ui">
+                <div class="panel-title">
+                    ☍ 学习统计
+                </div>
 
-                    <div class="title">
-                        夏以昼的陪伴
+                <div class="stats">
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            今日专注
+                        </div>
+
+                        <div class="stat-value"
+                        id="focusTime">
+
+                            0h
+
+                        </div>
+
                     </div>
 
-                    <div class="quote">
-                        “别分神。<br>
-                        你的每一分钟，<br>
-                        都很重要。”
-                    </div>
+                    <div class="stat-card">
 
-                    <div class="signature">
-                        —— Deep Space
+                        <div class="stat-label">
+                            完成番茄
+                        </div>
+
+                        <div class="stat-value"
+                        id="pomodoroCount">
+
+                            0
+
+                        </div>
+
                     </div>
 
                 </div>
 
-                <!-- 这里替换成夏以昼风格 -->
+            </div>
 
-                <img
-                class="character"
-                src="https://cdn.pixabay.com/photo/2024/03/03/17/55/ai-generated-8607805_1280.png">
+            <!-- 科目累计 -->
+
+            <div>
+
+                <div class="panel-title">
+                    ✎ 科目学习时长
+                </div>
+
+                <div class="subject-list"
+                id="subjectList">
+
+                </div>
 
             </div>
 
-            <!-- 底部 -->
+        </div>
 
-            <div class="bottom-system">
+        <!-- 中间 -->
 
-                <div>✦ 深空模式</div>
-                <div>☾ 白噪音</div>
-                <div>♫ 星际环境音</div>
-                <div>⚡ 沉浸专注</div>
+        <div class="center">
+
+            <div class="energy-ring">
+
+                <div class="timer-content">
+
+                    <div class="mode">
+                        FOCUS MODE
+                    </div>
+
+                    <div class="time"
+                    id="timer">
+
+                        25:00
+
+                    </div>
+
+                    <div class="tip">
+
+                        沉浸当下，
+                        未来会如你所愿。
+
+                    </div>
+
+                </div>
 
             </div>
+
+            <!-- 按钮 -->
+
+            <div class="controls">
+
+                <button
+                class="control-btn primary"
+                onclick="startTimer()">
+
+                    开始专注
+
+                </button>
+
+                <button
+                class="control-btn secondary"
+                onclick="pauseTimer()">
+
+                    暂停
+
+                </button>
+
+                <button
+                class="control-btn secondary"
+                onclick="resetTimer()">
+
+                    重置
+
+                </button>
+
+            </div>
+
+            <!-- 白噪音 -->
+
+            <div class="sound-panel">
+
+                <div class="panel-title">
+                    ☾ 深空环境音
+                </div>
+
+                <div class="sound-buttons">
+
+                    <button
+                    class="sound-btn"
+                    onclick="playSound('rain')">
+
+                        雨声
+
+                    </button>
+
+                    <button
+                    class="sound-btn"
+                    onclick="playSound('space')">
+
+                        深空低频
+
+                    </button>
+
+                    <button
+                    class="sound-btn"
+                    onclick="playSound('library')">
+
+                        图书馆
+
+                    </button>
+
+                    <button
+                    class="sound-btn"
+                    onclick="stopSound()">
+
+                        停止
+
+                    </button>
+
+                </div>
+
+                <div class="volume">
+
+                    <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.5"
+                    id="volume">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 右边 -->
+
+        <div class="companion panel">
+
+            <div class="companion-ui">
+
+                <div class="companion-title">
+                    夏以昼的陪伴
+                </div>
+
+                <div class="quote">
+
+                    “别分神。<br>
+                    你的每一分钟，<br>
+                    都很重要。”
+
+                </div>
+
+            </div>
+
+            <img
+            class="character"
+            src="https://cdn.pixabay.com/photo/2024/03/03/17/55/ai-generated-8607805_1280.png">
+
+            <div class="overlay"></div>
 
         </div>
 
@@ -750,89 +1085,111 @@ body{
 
 </div>
 
+<audio
+id="bgAudio"
+loop></audio>
+
 <script>
 
-/* ========================= */
-/* 星空生成 */
-/* ========================= */
+/* ================================= */
+/* 星空 */
+/* ================================= */
 
-const bg = document.querySelector(".space-bg");
+const stars =
+document.getElementById("stars");
 
-for(let i=0;i<160;i++){
+for(let i=0;i<180;i++){
 
-    let star = document.createElement("div");
+    let star =
+    document.createElement("div");
 
     star.classList.add("star");
 
-    let size = Math.random()*3;
+    let size =
+    Math.random()*3;
 
-    star.style.width = size+"px";
-    star.style.height = size+"px";
+    star.style.width =
+    size + "px";
 
-    star.style.left = Math.random()*100+"%";
-    star.style.top = Math.random()*100+"%";
+    star.style.height =
+    size + "px";
+
+    star.style.left =
+    Math.random()*100 + "%";
+
+    star.style.top =
+    Math.random()*100 + "%";
 
     star.style.animationDuration =
-    2 + Math.random()*5 + "s";
+    2 + Math.random()*4 + "s";
 
-    bg.appendChild(star);
+    stars.appendChild(star);
 }
 
-/* ========================= */
-/* 番茄钟 */
-/* ========================= */
+/* ================================= */
+/* 数据 */
+/* ================================= */
 
-let totalSeconds = 25 * 60;
-
-let initialSeconds = totalSeconds;
+let totalSeconds =
+25 * 60;
 
 let timer;
 
-/* 更新时间 */
+let todayMinutes =
+parseInt(
+localStorage.getItem(
+"todayMinutes")
+) || 0;
+
+let pomodoroCount =
+parseInt(
+localStorage.getItem(
+"pomodoroCount")
+) || 0;
+
+let currentSubject =
+localStorage.getItem(
+"currentSubject"
+) || "英语";
+
+let subjectData =
+JSON.parse(
+localStorage.getItem(
+"subjectData")
+) || {};
+
+document
+.getElementById(
+"currentSubject"
+).innerText =
+currentSubject;
+
+/* ================================= */
+/* 计时 */
+/* ================================= */
 
 function updateDisplay(){
 
-    let minutes =
-    Math.floor(totalSeconds / 60);
+    let m =
+    Math.floor(
+    totalSeconds / 60);
 
-    let seconds =
+    let s =
     totalSeconds % 60;
 
-    document.getElementById("timer").innerHTML =
-    `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+    document
+    .getElementById("timer")
+    .innerText =
+
+    `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 }
-
-/* 设置时间 */
-
-function setTimer(minutes){
-
-    totalSeconds = minutes * 60;
-
-    initialSeconds = totalSeconds;
-
-    updateDisplay();
-}
-
-/* 自定义 */
-
-function customTimer(){
-
-    const custom =
-    document.getElementById("customMinutes").value;
-
-    if(custom && custom > 0){
-
-        setTimer(custom);
-    }
-}
-
-/* 开始 */
 
 function startTimer(){
 
     clearInterval(timer);
 
-    timer = setInterval(()=>{
+    timer =
+    setInterval(()=>{
 
         if(totalSeconds > 0){
 
@@ -844,31 +1201,209 @@ function startTimer(){
 
             clearInterval(timer);
 
-            alert("专注结束，休息一下吧。");
+            finishSession();
         }
 
     },1000);
 }
-
-/* 暂停 */
 
 function pauseTimer(){
 
     clearInterval(timer);
 }
 
-/* 重置 */
-
 function resetTimer(){
 
     clearInterval(timer);
 
-    totalSeconds = initialSeconds;
+    totalSeconds =
+    25 * 60;
 
     updateDisplay();
 }
 
+/* ================================= */
+/* 完成 */
+/* ================================= */
+
+function finishSession(){
+
+    pomodoroCount++;
+
+    todayMinutes += 25;
+
+    if(!subjectData[currentSubject]){
+
+        subjectData[currentSubject] = 0;
+    }
+
+    subjectData[currentSubject] += 25;
+
+    localStorage.setItem(
+    "todayMinutes",
+    todayMinutes);
+
+    localStorage.setItem(
+    "pomodoroCount",
+    pomodoroCount);
+
+    localStorage.setItem(
+    "subjectData",
+    JSON.stringify(subjectData));
+
+    renderStats();
+
+    renderSubjects();
+
+    alert("本次专注完成。");
+
+    resetTimer();
+}
+
+/* ================================= */
+/* 科目 */
+/* ================================= */
+
+function saveSubject(){
+
+    const value =
+    document
+    .getElementById(
+    "subjectInput")
+    .value
+    .trim();
+
+    if(value){
+
+        currentSubject =
+        value;
+
+        localStorage.setItem(
+        "currentSubject",
+        value);
+
+        document
+        .getElementById(
+        "currentSubject")
+        .innerText = value;
+    }
+}
+
+/* ================================= */
+/* 渲染 */
+/* ================================= */
+
+function renderStats(){
+
+    document
+    .getElementById(
+    "focusTime")
+    .innerText =
+
+    (todayMinutes / 60)
+    .toFixed(1) + "h";
+
+    document
+    .getElementById(
+    "pomodoroCount")
+    .innerText =
+    pomodoroCount;
+}
+
+function renderSubjects(){
+
+    const list =
+    document
+    .getElementById(
+    "subjectList");
+
+    list.innerHTML = "";
+
+    for(let subject
+    in subjectData){
+
+        let item =
+        document
+        .createElement("div");
+
+        item.className =
+        "subject-item";
+
+        item.innerHTML = `
+
+            <div class="subject-name">
+                ${subject}
+            </div>
+
+            <div class="subject-time">
+                ${subjectData[subject]} min
+            </div>
+
+        `;
+
+        list.appendChild(item);
+    }
+}
+
+/* ================================= */
+/* 音频 */
+/* ================================= */
+
+const audio =
+document
+.getElementById(
+"bgAudio");
+
+const sounds = {
+
+    rain:
+    "./assets/audio/rain.mp3",
+
+    space:
+    "./assets/audio/space.mp3",
+
+    library:
+    "./assets/audio/library.mp3"
+};
+
+function playSound(type){
+
+    audio.src =
+    sounds[type];
+
+    audio.play();
+}
+
+function stopSound(){
+
+    audio.pause();
+
+    audio.currentTime = 0;
+}
+
+document
+.getElementById(
+"volume")
+.addEventListener(
+"input",
+e=>{
+
+    audio.volume =
+    e.target.value;
+});
+
+/* ================================= */
+/* 初始化 */
+/* ================================= */
+
+renderStats();
+
+renderSubjects();
+
+updateDisplay();
+
 </script>
 
 </body>
+
 </html>
