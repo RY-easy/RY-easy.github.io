@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>深空专注系统</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Segoe UI",sans-serif;
+    }
+
+    body{
+      height:100vh;
+      overflow:hidden;
+      background:
+      radial-gradient(circle at top,#1f3f8f22,transparent 30%),
+      radial-gradient(circle at bottom,#1d2b5c44,transparent 40%),
+      #040b1c;
+      color:white;
+      display:flex;
+    }
+
+    /* 星空背景 */
+
+    .stars{
+      position:fixed;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      overflow:hidden;
+    }
+
+    .star{
+      position:absolute;
+      background:white;
+      border-radius:50%;
+      animation: twinkle linear infinite;
+      opacity:0.8;
+    }
+
+    @keyframes twinkle{
+      0%{opacity:.2}
+      50%{opacity:1}
+      100%{opacity:.2}
+    }
+
+    /* 左侧栏 */
+
+    .sidebar{
+      width:240px;
+      height:100vh;
+      backdrop-filter:blur(18px);
+      background:rgba(10,15,35,.6);
+      border-right:1px solid rgba(255,255,255,.08);
+      padding:30px 20px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:700;
+      margin-bottom:10px;
+      letter-spacing:2px;
+    }
+
+    .sub{
+      color:#8fa9ff;
+      margin-bottom:40px;
+      font-size:14px;
+    }
+
+    .menu{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .menu button{
+      background:transparent;
+      border:none;
+      color:#cdd8ff;
+      padding:16px;
+      border-radius:16px;
+      text-align:left;
+      font-size:15px;
+      cursor:pointer;
+      transition:.3s;
+    }
+
+    .menu button:hover{
+      background:rgba(126,163,255,.12);
+      transform:translateX(4px);
+    }
+
+    /* 主区域 */
+
+    .main{
+      flex:1;
+      padding:40px;
+      display:flex;
+      gap:30px;
+    }
+
+    /* 中间 */
+
+    .center{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .timer-ring{
+      width:420px;
+      height:420px;
+      border-radius:50%;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+      radial-gradient(circle,#0a1538 58%,transparent 59%),
+      conic-gradient(#dfe8ff 0deg,#8cb4ff 260deg,#2f4275 360deg);
+
+      box-shadow:
+      0 0 30px rgba(120,170,255,.35),
+      inset 0 0 40px rgba(255,255,255,.08);
+
+      animation:ringBreath 4s infinite;
+    }
+
+    @keyframes ringBreath{
+      0%{
+        box-shadow:
+        0 0 20px rgba(120,170,255,.2),
+        inset 0 0 40px rgba(255,255,255,.06);
+      }
+      50%{
+        box-shadow:
+        0 0 45px rgba(120,170,255,.55),
+        inset 0 0 60px rgba(255,255,255,.1);
+      }
+      100%{
+        box-shadow:
+        0 0 20px rgba(120,170,255,.2),
+        inset 0 0 40px rgba(255,255,255,.06);
+      }
+    }
+
+    .timer-inner{
+      width:330px;
+      height:330px;
+      border-radius:50%;
+      background:rgba(4,10,25,.95);
+      backdrop-filter:blur(15px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .mode{
+      color:#a8bfff;
+      margin-bottom:15px;
+      letter-spacing:3px;
+      font-size:14px;
+    }
+
+    .time{
+      font-size:82px;
+      font-weight:200;
+      letter-spacing:4px;
+    }
+
+    .quote{
+      margin-top:18px;
+      color:#8fa1d9;
+      font-size:14px;
+    }
+
+    .controls{
+      margin-top:40px;
+      display:flex;
+      gap:20px;
+    }
+
+    .controls button{
+      padding:16px 34px;
+      border:none;
+      border-radius:18px;
+      cursor:pointer;
+      color:white;
+      font-size:16px;
+      background:linear-gradient(135deg,#8fb4ff,#5b78ff);
+      box-shadow:0 0 20px rgba(111,149,255,.35);
+      transition:.3s;
+    }
+
+    .controls button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 0 30px rgba(111,149,255,.55);
+    }
+
+    /* 右侧陪伴 */
+
+    .right-panel{
+      width:380px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+
+    .card{
+      background:rgba(12,18,40,.55);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 0 25px rgba(0,0,0,.2);
+    }
+
+    .character{
+      height:460px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .character img{
+      position:absolute;
+      bottom:0;
+      right:-20px;
+      height:100%;
+      object-fit:cover;
+      opacity:.96;
+    }
+
+    .character-text{
+      position:absolute;
+      left:0;
+      top:0;
+      z-index:2;
+      width:55%;
+    }
+
+    .character h2{
+      font-size:28px;
+      margin-bottom:18px;
+    }
+
+    .character p{
+      line-height:1.8;
+      color:#dbe5ff;
+    }
+
+    .small{
+      color:#91a5da;
+      margin-top:15px;
+      font-size:14px;
+    }
+
+    .todo ul{
+      margin-top:15px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .todo li{
+      list-style:none;
+      padding:14px;
+      border-radius:14px;
+      background:rgba(255,255,255,.04);
+      color:#dce4ff;
+    }
+
+    /* 底部 */
+
+    .bottom-bar{
+      position:fixed;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      width:420px;
+      padding:16px 26px;
+      border-radius:24px;
+      background:rgba(10,15,35,.65);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:space-between;
+      color:#d7e2ff;
+    }
+
+    @media(max-width:1200px){
+      .right-panel{
+        display:none;
+      }
+
+      .sidebar{
+        display:none;
+      }
+
+      .main{
+        justify-content:center;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- 星空 -->
+  <div class="stars"></div>
+
+  <!-- 左侧 -->
+  <div class="sidebar">
+
+    <div>
+      <div class="logo">深空专注</div>
+      <div class="sub">Deep Space Focus</div>
+
+      <div class="menu">
+        <button>✦ 专注模式</button>
+        <button>☾ 白噪音</button>
+        <button>☍ 数据统计</button>
+        <button>✎ 学习记录</button>
+        <button>⚙ 设置</button>
+      </div>
+    </div>
+
+    <div style="color:#7f95cc;font-size:14px;">
+      “我会一直在这里。”<br><br>
+      —— 夏以昼
+    </div>
+
+  </div>
+
+  <!-- 主体 -->
+  <div class="main">
+
+    <!-- 中间 -->
+    <div class="center">
+
+      <div class="timer-ring">
+
+        <div class="timer-inner">
+          <div class="mode">FOCUS MODE</div>
+          <div class="time" id="time">25:00</div>
+
+          <div class="quote">
+            沉浸当下，未来会如你所愿。
+          </div>
+        </div>
+
+      </div>
+
+      <div class="controls">
+        <button onclick="startTimer()">开始专注</button>
+        <button onclick="pauseTimer()">暂停</button>
+      </div>
+
+    </div>
+
+    <!-- 右侧 -->
+    <div class="right-panel">
+
+      <div class="card character">
+
+        <div class="character-text">
+          <h2>夏以昼的陪伴</h2>
+
+          <p>
+            “别分神。<br>
+            你的每一分钟，<br>
+            都很重要。”
+          </p>
+
+          <div class="small">
+            深空陪伴系统已连接
+          </div>
+        </div>
+
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop"/>
+
+      </div>
+
+      <div class="card todo">
+        <h3>今日待办</h3>
+
+        <ul>
+          <li>✔ 背完英语单词 50 个</li>
+          <li>◻ 数学错题整理</li>
+          <li>◻ 政治主观题复盘</li>
+          <li>◻ 阅读30分钟</li>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 底部 -->
+  <div class="bottom-bar">
+    <span>✦ 深空模式</span>
+    <span>☾ 雨声</span>
+    <span>♫ 星际环境音</span>
+  </div>
+
+  <script>
+
+    // 星空生成
+
+    const stars = document.querySelector(".stars");
+
+    for(let i=0;i<180;i++){
+
+      let star = document.createElement("div");
+      star.classList.add("star");
+
+      let size = Math.random()*3;
+
+      star.style.width = size+"px";
+      star.style.height = size+"px";
+
+      star.style.left = Math.random()*100+"%";
+      star.style.top = Math.random()*100+"%";
+
+      star.style.animationDuration =
+      2 + Math.random()*4 + "s";
+
+      stars.appendChild(star);
+    }
+
+    // 番茄钟
+
+    let timer;
+    let totalSeconds = 25 * 60;
+
+    function updateDisplay(){
+
+      let minutes =
+      Math.floor(totalSeconds / 60);
+
+      let seconds =
+      totalSeconds % 60;
+
+      document.getElementById("time").innerHTML =
+      `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+    }
+
+    function startTimer(){
+
+      clearInterval(timer);
+
+      timer = setInterval(()=>{
+
+        if(totalSeconds > 0){
+
+          totalSeconds--;
+          updateDisplay();
+
+        }else{
+
+          clearInterval(timer);
+
+          alert("专注结束，休息一下吧。");
+        }
+
+      },1000);
+    }
+
+    function pauseTimer(){
+      clearInterval(timer);
+    }
+
+  </script>
+
+</body>
+</html>
